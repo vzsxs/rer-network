@@ -2,21 +2,23 @@ const express = require("express");
 const router = express.Router();
 
 const supabase = require("../config/supabase");
+const verifyToken = require("../middleware/auth");
 
 
 // ENVIAR SOLICITUD DE INGRESO
 
-router.post("/", async (req, res) => {
+router.post("/", verifyToken, async (req, res) => {
 
     try {
 
+        const user_id = req.userId;
+
         const {
-            user_id,
             group_id
         } = req.body;
 
 
-        if(!user_id || !group_id){
+        if(!group_id){
 
             return res.status(400).json({
 
