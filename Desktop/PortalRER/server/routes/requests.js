@@ -5,6 +5,111 @@ const supabase = require("../config/supabase");
 const verifyToken = require("../middleware/auth");
 
 
+/* ==========================
+   ESTADO DEL USUARIO
+   ¿ya pertenece a un grupo? ¿tiene solicitud pendiente?
+========================== */
+
+router.get("/estado", verifyToken, async (req, res) => {
+
+    try {
+
+        const user_id = req.userId;
+
+
+        // ¿Ya es miembro de un grupo?
+
+        const { data: membership, error: membershipError } = await supabase
+            .from("group_members")
+            .select(`
+                group_id,
+                rango,
+                groups (
+                    nombre,
+                    slug
+                )
+            `)
+            .eq("user_id", user_id)
+            .maybeSingle();
+
+
+        if (membershipError) {
+
+            return res.status(500).json({
+                error: membershipError.message
+            });
+
+        }
+
+
+        if (membership) {
+
+            return res.json({
+
+                yaEsMiembro: true,
+
+                grupo: membership.groups ? membership.groups.nombre : null,
+
+                grupoSlug: membership.groups ? membership.groups.slug : null,
+
+                rango: membership.rango,
+
+                tieneSolicitudPendiente: false
+
+            });
+
+        }
+
+
+        // Si no es miembro, ¿tiene solicitud pendiente?
+
+        const { data: solicitud, error: solicitudError } = await supabase
+            .from("group_requests")
+            .select(`
+                group_id,
+                groups (
+                    nombre,
+                    slug
+                )
+            `)
+            .eq("user_id", user_id)
+            .eq("estado", "pendiente")
+            .maybeSingle();
+
+
+        if (solicitudError) {
+
+            return res.status(500).json({
+                error: solicitudError.message
+            });
+
+        }
+
+
+        res.json({
+
+            yaEsMiembro: false,
+
+            tieneSolicitudPendiente: !!solicitud,
+
+            grupoSolicitado: solicitud && solicitud.groups
+                ? solicitud.groups.nombre
+                : null
+
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            error: error.message
+        });
+
+    }
+
+});
+
+
 // ENVIAR SOLICITUD DE INGRESO
 
 router.post("/", verifyToken, async (req, res) => {
