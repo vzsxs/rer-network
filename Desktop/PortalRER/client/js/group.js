@@ -57,14 +57,11 @@ async function cargarGrupo(){
 async function solicitarIngreso(){
 
 
-    // Usuario temporal de prueba
-    // Luego lo cambiaremos por el usuario del login
-
-    const usuarioID = localStorage.getItem("usuarioID");
+    const token = localStorage.getItem("token");
 
 
 
-    if(!usuarioID){
+    if(!token){
 
 
         alert("Debes iniciar sesión primero");
@@ -86,16 +83,15 @@ async function solicitarIngreso(){
         headers:{
 
 
-            "Content-Type":"application/json"
+            "Content-Type":"application/json",
+
+            "Authorization": `Bearer ${token}`
 
 
         },
 
 
         body:JSON.stringify({
-
-
-            user_id:usuarioID,
 
 
             group_id:grupoActual.id
