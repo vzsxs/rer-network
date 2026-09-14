@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Registro - Portal RER</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Portal RER</h1>
+
+        <p>Crear una cuenta</p>
+
+        <form id="registerForm">
+
+            <label>Nombre de usuario</label>
+
+            <input
+                type="text"
+                id="nombre"
+                placeholder="Ej: Juan"
+                required
+            >
+
+            <label>Correo electrónico</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="correo@ejemplo.com"
+                required
+            >
+
+            <label>Contraseña</label>
+
+            <input
+                type="password"
+                id="password"
+                required
+            >
+
+            <label>Confirmar contraseña</label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                required
+            >
+
+            <label>Código de invitación</label>
+
+            <input
+                type="text"
+                id="inviteCode"
+                placeholder="RER2026"
+                required
+            >
+
+            <button type="submit">
+
+                Registrarse
+
+            </button>
+
+        </form>
+
+        <p id="mensaje"></p>
+
+        <br>
+
+        <a href="login.html">
+
+            ← Ya tengo una cuenta
+
+        </a>
+
+    </div>
+
+    <script src="js/register.js"></script>
+
+</body>
+
+</html>

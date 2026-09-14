@@ -1,0 +1,137 @@
+body{
+
+    background:#18191c;
+
+    color:white;
+
+    font-family:Arial;
+
+    padding:30px;
+
+}
+
+
+header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+a{
+
+    color:#aaa;
+
+}
+
+
+
+#requestsContainer{
+
+    margin-top:30px;
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+
+
+.request-card{
+
+    background:#232428;
+
+    border:1px solid #34363c;
+
+    border-radius:12px;
+
+    padding:25px;
+
+}
+
+
+
+button{
+
+    padding:12px 20px;
+
+    border:none;
+
+    border-radius:8px;
+
+    cursor:pointer;
+
+    margin-right:10px;
+
+    background:#50545c;
+
+    color:white;
+
+}
+
+
+
+button:hover{
+
+    background:#70757d;
+
+}
+
+/* ===========================
+   SELECT DE GRUPOS
+=========================== */
+
+#groupSelect {
+
+    width:100%;
+
+    padding:14px 16px;
+
+    background:#232428;
+
+    color:white;
+
+    border:1px solid #34363c;
+
+    border-radius:12px;
+
+    font-size:16px;
+
+    cursor:pointer;
+
+    outline:none;
+
+    transition:0.3s;
+
+}
+
+
+#groupSelect:hover{
+
+    border-color:#666;
+
+}
+
+
+#groupSelect:focus{
+
+    border-color:#888;
+
+    box-shadow:0 0 10px rgba(255,255,255,0.15);
+
+}
+
+
+
+#groupSelect option{
+
+    background:#232428;
+
+    color:white;
+
+}

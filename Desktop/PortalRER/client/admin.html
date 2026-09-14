@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Administración - Portal RER
+    </title>
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="css/dashboard.css">
+
+    <link rel="stylesheet"
+          href="css/admin.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+
+        Portal RER
+
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">
+            Inicio
+        </a>
+
+        <a href="groups.html">
+            Grupos
+        </a>
+
+        <a href="admin.html"
+           class="active">
+
+            Solicitudes
+
+        </a>
+
+        <a href="#">
+            Noticias
+        </a>
+
+        <a href="#">
+            Perfil
+        </a>
+
+    </nav>
+
+    <div class="profile-mini">
+
+        <span id="nombreMini">
+
+            Administrador
+
+        </span>
+
+    </div>
+
+</header>
+
+<div class="wrapper">
+
+<section>
+
+<div class="hero">
+
+<div class="hero-text">
+
+<h1>
+
+Panel de Administración
+
+</h1>
+
+<p>
+
+Gestiona solicitudes, miembros y rangos
+de todas las organizaciones.
+
+</p>
+
+</div>
+
+</div>
+
+<h2 class="titulo">
+
+Solicitudes pendientes
+
+</h2>
+
+<div id="requestsContainer"
+     class="cards">
+
+    Cargando solicitudes...
+
+</div>
+
+<br><br>
+
+<h2 class="titulo">
+
+Administrar miembros
+
+</h2>
+
+<div class="card">
+
+<p>
+
+Selecciona un grupo.
+
+</p>
+
+<select id="groupSelect">
+
+<option value="">
+
+Selecciona un grupo
+
+</option>
+
+</select>
+
+</div>
+
+<br>
+
+<div id="membersContainer"
+     class="cards">
+
+<p>
+
+Selecciona un grupo para cargar
+sus miembros.
+
+</p>
+
+</div>
+
+</section>
+
+<aside class="profile-card">
+
+<h2>
+
+Administrador
+
+</h2>
+
+<hr>
+
+<br>
+
+<h3 id="nombreUsuario">
+
+Cargando...
+
+</h3>
+
+<p id="rolUsuario">
+
+Administrador
+
+</p>
+
+<hr>
+
+<br>
+
+<p>
+
+Desde este panel puedes:
+
+</p>
+
+<ul>
+
+<li>
+
+Aceptar solicitudes
+
+</li>
+
+<li>
+
+Rechazar solicitudes
+
+</li>
+
+<li>
+
+Ver miembros
+
+</li>
+
+<li>
+
+Cambiar rangos
+
+</li>
+
+</ul>
+
+<br>
+
+<button id="logoutBtn">
+
+Cerrar sesión
+
+</button>
+
+</aside>
+
+</div><script src="js/admin.js"></script>
+
+</body>
+
+</html>

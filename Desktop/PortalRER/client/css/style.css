@@ -1,0 +1,203 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background-image:url("../images/fondo.jpg");
+
+    background-size:cover;
+
+    background-position:center;
+
+    background-repeat:no-repeat;
+
+    background-attachment:fixed;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    height:100vh;
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    position:relative;
+
+    overflow:hidden;
+
+}
+
+body::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:100%;
+
+    height:100%;
+
+    background:rgba(0,0,0,.70);
+
+    top:0;
+
+    left:0;
+
+}
+
+.container{
+
+    position:relative;
+
+    z-index:2;
+
+    width:520px;
+
+    padding:45px;
+
+    border-radius:15px;
+
+    background:rgba(20,20,20,.75);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    box-shadow:0 0 40px rgba(0,0,0,.7);
+
+    text-align:center;
+
+}
+
+h1{
+
+    font-family:"UnifrakturCook", cursive;
+
+    font-size:62px;
+
+    color:white;
+
+    margin-bottom:10px;
+
+    text-shadow:0 0 15px rgba(255,255,255,.25);
+
+}
+
+p{
+
+    color:#c8c8c8;
+
+    margin-bottom:30px;
+
+}
+
+.buttons{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+button{
+
+    width:100%;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#4b5563;
+
+    color:white;
+
+    font-size:18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    background:#6b7280;
+
+    transform:translateY(-2px);
+
+}
+
+input{
+
+    width:100%;
+
+    height:52px;
+
+    margin-bottom:18px;
+
+    padding-left:15px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:#2a2d36;
+
+    color:white;
+
+    font-size:16px;
+
+}
+
+input::placeholder{
+
+    color:#a8a8a8;
+
+}
+
+a{
+
+    color:#67b7ff;
+
+    text-decoration:none;
+
+}
+
+a:hover{
+
+    text-decoration:underline;
+
+}
+
+form{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+label{
+
+    text-align:left;
+
+    margin-bottom:8px;
+
+    margin-top:10px;
+
+    font-size:15px;
+
+    color:#d1d5db;
+
+    font-weight:bold;
+
+}
