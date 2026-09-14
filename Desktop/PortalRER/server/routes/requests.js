@@ -27,24 +27,65 @@ router.post("/", async (req, res) => {
         }
 
 
+        // 1. Revisar si el usuario YA pertenece a un grupo
+        // (recuerda: un usuario solo puede estar en un grupo a la vez)
 
-        // Revisar si ya existe una solicitud
-
-        const { data: existente } = await supabase
-            .from("group_requests")
-            .select("*")
+        const { data: yaEsMiembro, error: miembroError } = await supabase
+            .from("group_members")
+            .select("id")
             .eq("user_id", user_id)
-            .eq("group_id", group_id)
-            .eq("estado", "pendiente")
-            .single();
+            .maybeSingle();
 
+
+        if (miembroError) {
+
+            return res.status(500).json({
+
+                error: miembroError.message
+
+            });
+
+        }
+
+
+        if (yaEsMiembro) {
+
+            return res.status(400).json({
+
+                error: "Ya perteneces a un grupo. No puedes solicitar ingreso a otro."
+
+            });
+
+        }
+
+
+        // 2. Revisar si el usuario YA tiene una solicitud pendiente
+        // (a este grupo o a cualquier otro)
+
+        const { data: existente, error: existenteError } = await supabase
+            .from("group_requests")
+            .select("id, group_id")
+            .eq("user_id", user_id)
+            .eq("estado", "pendiente")
+            .maybeSingle();
+
+
+        if (existenteError) {
+
+            return res.status(500).json({
+
+                error: existenteError.message
+
+            });
+
+        }
 
 
         if(existente){
 
             return res.status(400).json({
 
-                error:"Ya tienes una solicitud pendiente"
+                error:"Ya tienes una solicitud pendiente. Espera a que sea revisada antes de enviar otra."
 
             });
 
