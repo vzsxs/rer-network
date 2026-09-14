@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             try {
 
                 const respuesta = await fetch(
-                    "http://localhost:3000/api/roblox/link",
+                    "/api/roblox/link",
                     {
                         method: "POST",
 
