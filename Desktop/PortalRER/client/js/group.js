@@ -1,147 +1,259 @@
-const params = new URLSearchParams(window.location.search);
+const express = require("express");
+const router = express.Router();
 
-const slug = params.get("slug");
-
-
-let grupoActual = null;
-
+const supabase = require("../config/supabase");
+const verifyToken = require("../middleware/auth");
 
 
-async function cargarGrupo(){
+/* ==========================
+   ESTADO DEL USUARIO
+   ¿ya pertenece a un grupo? ¿tiene solicitud pendiente?
+========================== */
+
+router.get("/estado", verifyToken, async (req, res) => {
+
+    try {
+
+        const user_id = req.userId;
 
 
-    if(!slug){
+        // ¿Ya es miembro de un grupo?
 
-        console.error("No existe slug");
+        const { data: membership, error: membershipError } = await supabase
+            .from("group_members")
+            .select(`
+                group_id,
+                rango,
+                groups (
+                    nombre,
+                    slug
+                )
+            `)
+            .eq("user_id", user_id)
+            .maybeSingle();
 
-        return;
+
+        if (membershipError) {
+
+            return res.status(500).json({
+                error: membershipError.message
+            });
+
+        }
+
+
+        if (membership) {
+
+            return res.json({
+
+                yaEsMiembro: true,
+
+                grupo: membership.groups ? membership.groups.nombre : null,
+
+                grupoSlug: membership.groups ? membership.groups.slug : null,
+
+                rango: membership.rango,
+
+                tieneSolicitudPendiente: false
+
+            });
+
+        }
+
+
+        // Si no es miembro, ¿tiene solicitud pendiente?
+
+        const { data: solicitud, error: solicitudError } = await supabase
+            .from("group_requests")
+            .select(`
+                group_id,
+                groups (
+                    nombre,
+                    slug
+                )
+            `)
+            .eq("user_id", user_id)
+            .eq("estado", "pendiente")
+            .maybeSingle();
+
+
+        if (solicitudError) {
+
+            return res.status(500).json({
+                error: solicitudError.message
+            });
+
+        }
+
+
+        res.json({
+
+            yaEsMiembro: false,
+
+            tieneSolicitudPendiente: !!solicitud,
+
+            grupoSolicitado: solicitud && solicitud.groups
+                ? solicitud.groups.nombre
+                : null
+
+        });
+
+
+    } catch (error) {
+
+        res.status(500).json({
+            error: error.message
+        });
 
     }
 
-
-    try{
-
-
-        const respuesta = await fetch(`/api/groups/${slug}`);
+});
 
 
-        const grupo = await respuesta.json();
+// ENVIAR SOLICITUD DE INGRESO
+
+router.post("/", verifyToken, async (req, res) => {
+
+    try {
+
+        const user_id = req.userId;
+
+        const {
+            group_id
+        } = req.body;
 
 
-        grupoActual = grupo;
+        if(!group_id){
+
+            return res.status(400).json({
+
+                error:"Faltan datos"
+
+            });
+
+        }
+
+
+        // 1. Revisar si el usuario YA pertenece a un grupo
+        // (recuerda: un usuario solo puede estar en un grupo a la vez)
+
+        const { data: yaEsMiembro, error: miembroError } = await supabase
+            .from("group_members")
+            .select("id")
+            .eq("user_id", user_id)
+            .maybeSingle();
+
+
+        if (miembroError) {
+
+            return res.status(500).json({
+
+                error: miembroError.message
+
+            });
+
+        }
+
+
+        if (yaEsMiembro) {
+
+            return res.status(400).json({
+
+                error: "Ya perteneces a un grupo. No puedes solicitar ingreso a otro."
+
+            });
+
+        }
+
+
+        // 2. Revisar si el usuario YA tiene una solicitud pendiente
+        // (a este grupo o a cualquier otro)
+
+        const { data: existente, error: existenteError } = await supabase
+            .from("group_requests")
+            .select("id, group_id")
+            .eq("user_id", user_id)
+            .eq("estado", "pendiente")
+            .maybeSingle();
+
+
+        if (existenteError) {
+
+            return res.status(500).json({
+
+                error: existenteError.message
+
+            });
+
+        }
+
+
+        if(existente){
+
+            return res.status(400).json({
+
+                error:"Ya tienes una solicitud pendiente. Espera a que sea revisada antes de enviar otra."
+
+            });
+
+        }
 
 
 
-        document.getElementById("bannerGrupo").src = grupo.banner;
 
-        document.getElementById("iconoGrupo").src = grupo.icono;
+        const { data, error } = await supabase
+            .from("group_requests")
+            .insert([{
 
-        document.getElementById("nombreGrupo").textContent = grupo.nombre;
+                user_id:user_id,
 
-        document.getElementById("descripcionGrupo").textContent = grupo.descripcion;
+                group_id:group_id,
+
+                estado:"pendiente"
+
+            }])
+            .select()
+            .single();
+
+
+
+        if(error){
+
+            return res.status(500).json({
+
+                error:error.message
+
+            });
+
+        }
+
+
+
+        res.json({
+
+            message:"Solicitud enviada correctamente",
+
+            solicitud:data
+
+        });
 
 
 
     }catch(error){
 
-        console.error(error);
 
-    }
+        res.status(500).json({
 
+            error:error.message
 
-}
-
-
-
-
-async function solicitarIngreso(){
-
-
-    const token = localStorage.getItem("token");
-
-
-
-    if(!token){
-
-
-        alert("Debes iniciar sesión primero");
-
-
-        return;
-
-    }
-
-
-
-
-    const respuesta = await fetch("/api/requests",{
-
-
-        method:"POST",
-
-
-        headers:{
-
-
-            "Content-Type":"application/json",
-
-            "Authorization": `Bearer ${token}`
-
-
-        },
-
-
-        body:JSON.stringify({
-
-
-            group_id:grupoActual.id
-
-
-        })
-
-
-    });
-
-
-
-    const data = await respuesta.json();
-
-
-
-    const mensaje = document.getElementById("mensajeSolicitud");
-
-
-
-    if(data.error){
-
-
-        mensaje.textContent = data.error;
-
-
-    }else{
-
-
-        mensaje.textContent =
-        "✅ Solicitud enviada, espera aprobación";
+        });
 
 
     }
 
 
-}
+});
 
 
 
-
-
-document
-.getElementById("solicitarBtn")
-.addEventListener(
-    "click",
-    solicitarIngreso
-);
-
-
-
-
-cargarGrupo();
+module.exports = router;
