@@ -8,13 +8,14 @@ console.log("🔥 GROUPS ROUTE CARGADA");
 
 /* ==========================
    OBTENER TODOS LOS GRUPOS
+   (con conteo real de miembros)
 ========================== */
 
 router.get("/", async (req, res) => {
 
     try {
 
-        const { data, error } = await supabase
+        const { data: grupos, error } = await supabase
             .from("groups")
             .select("*")
             .order("nombre");
@@ -29,7 +30,37 @@ router.get("/", async (req, res) => {
         }
 
 
-        res.json(data);
+        // Traemos TODAS las membresías de una sola vez
+        // y contamos cuántas hay por grupo
+
+        const { data: miembros, error: miembrosError } = await supabase
+            .from("group_members")
+            .select("group_id");
+
+
+        if (miembrosError) {
+
+            return res.status(500).json({
+                error: miembrosError.message
+            });
+
+        }
+
+
+        const conteos = {};
+
+        for (const m of miembros) {
+            conteos[m.group_id] = (conteos[m.group_id] || 0) + 1;
+        }
+
+
+        const gruposConConteo = grupos.map(grupo => ({
+            ...grupo,
+            miembros: conteos[grupo.id] || 0
+        }));
+
+
+        res.json(gruposConConteo);
 
     } catch (err) {
 
@@ -111,6 +142,7 @@ router.get("/:slug/members", async (req, res) => {
 
 /* ==========================
    OBTENER GRUPO POR SLUG
+   (con conteo real de miembros)
 ========================== */
 
 router.get("/:slug", async (req, res) => {
@@ -120,7 +152,7 @@ router.get("/:slug", async (req, res) => {
         const slug = req.params.slug;
 
 
-        const { data, error } = await supabase
+        const { data: grupo, error } = await supabase
             .from("groups")
             .select("*")
             .eq("slug", slug)
@@ -137,8 +169,25 @@ router.get("/:slug", async (req, res) => {
         }
 
 
+        const { count, error: countError } = await supabase
+            .from("group_members")
+            .select("id", { count: "exact", head: true })
+            .eq("group_id", grupo.id);
 
-        res.json(data);
+
+        if (countError) {
+
+            return res.status(500).json({
+                error: countError.message
+            });
+
+        }
+
+
+        res.json({
+            ...grupo,
+            miembros: count || 0
+        });
 
 
 
