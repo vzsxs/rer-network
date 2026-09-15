@@ -3,69 +3,65 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupos - Portal RER</title>
 
-    <title>Portal RER - Grupos</title>
+<link rel="icon" href="/favicon.ico">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="css/groups.css">
+<link rel="stylesheet" href="css/groups.css">
 
 </head>
 
 <body>
 
 <header class="navbar">
-
-    <div class="logo">
-
-        Portal RER
-
-    </div>
-
+    <div class="logo">Portal RER</div>
     <nav>
-
         <a href="dashboard.html">Inicio</a>
-
+        <a href="foro.html">Foro</a>
+        <a href="miembros.html">Miembros</a>
         <a href="groups.html" class="active">Grupos</a>
-
-        <a href="#">Noticias</a>
-
-        <a href="#">Perfil</a>
-
+        <a href="perfil.html">Perfil</a>
     </nav>
-
-    <div class="profile-mini">
-
-        <span id="nombreUsuario"></span>
-
-    </div>
-
 </header>
 
+<div class="breadcrumb"><strong>Inicio</strong> › Grupos</div>
+<h1 class="titulo-pagina">Organizaciones</h1>
 
+<div class="layout">
 
-<div class="container">
+    <div>
 
-    <h1>
+        <div class="sidebar-box">
+            <div class="sidebar-box-header">
+                Categorías
+            </div>
+            <div class="sidebar-box-body">
+                <a href="#" class="sidebar-link">Todas las organizaciones <span class="badge" id="totalGrupos">—</span></a>
+            </div>
+        </div>
 
-        Organizaciones
+        <div class="sidebar-box">
+            <div class="sidebar-box-header">Grupos recientes</div>
+            <div class="sidebar-box-body" id="gruposRecientes">
+                <p style="padding:14px;font-size:12px;color:#7a7d84;">Cargando...</p>
+            </div>
+        </div>
 
-    </h1>
+    </div>
 
-    <p class="subtitle">
+    <div>
 
-        Selecciona una organización para ingresar a su portal.
-
-    </p>
-
-    <div id="groupsContainer" class="groups-grid">
+        <div id="groupsContainer" class="groups-grid">
+            <p style="color:#7a7d84;">Cargando grupos...</p>
+        </div>
 
     </div>
 
@@ -74,5 +70,4 @@
 <script src="js/groups.js"></script>
 
 </body>
-
 </html>
