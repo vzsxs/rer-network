@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Foro - Portal RER</title>
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/foro.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+    <div class="logo">Portal RER</div>
+    <nav>
+        <a href="dashboard.html">Inicio</a>
+        <a href="#" onclick="mostrar('chat', this); return false;" class="active">Foro</a>
+        <a href="#" onclick="mostrar('miembros', this); return false;">Miembros</a>
+        <a href="groups.html">Grupos</a>
+        <a href="perfil.html">Perfil</a>
+    </nav>
+</header>
+
+<div class="layout">
+
+    <div>
+
+        <div class="breadcrumb"><strong>Inicio</strong> › Foro general</div>
+
+        <div id="vistaChat">
+
+            <div class="chat-box">
+                <div class="chat-box-header">Chat general</div>
+
+                <div id="mensajesContainer" class="mensajes-container">
+                    <p class="cargando">Cargando mensajes...</p>
+                </div>
+
+                <form id="chatForm" class="chat-input-row">
+                    <input type="text" id="mensajeInput" placeholder="Escribe un mensaje..." maxlength="500" autocomplete="off">
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+
+            <div class="info-panel">
+                <div class="info-panel-header">
+                    <h2>Información</h2>
+                    <p>Aquí puedes vincular tu Roblox, encontrar el link del juego, etc.</p>
+                </div>
+
+                <a class="info-row" href="https://discord.gg/TU_INVITE_AQUI" target="_blank">
+                    <div class="info-icon">💬</div>
+                    <div class="info-row-texto">
+                        <h3>Discord</h3>
+                        <p>Únete a nuestro servidor de Discord.</p>
+                    </div>
+                </a>
+
+                <div class="info-row" onclick="mostrarVincular()">
+                    <div class="info-icon">🎮</div>
+                    <div class="info-row-texto">
+                        <h3>Vincular Roblox</h3>
+                        <p>Conecta tu cuenta para recibir tu uniforme automáticamente en el juego.</p>
+                    </div>
+                </div>
+
+                <a class="info-row" href="https://www.roblox.com/games/TU_GAME_ID" target="_blank">
+                    <div class="info-icon">🕹️</div>
+                    <div class="info-row-texto">
+                        <h3>Link del juego</h3>
+                        <p>Entra directo al servidor de Roblox de Portal RER.</p>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+
+        <div id="vistaMiembros" style="display:none;">
+            <div id="miembrosGrid" class="miembros-grid"></div>
+        </div>
+
+        <div id="vistaVincular" style="display:none;">
+
+            <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Vincular Roblox</strong></div>
+
+            <div class="vincular-header">
+                <h1>Vincular Roblox</h1>
+                <p>Aquí puedes vincular tu cuenta de Roblox.</p>
+            </div>
+
+            <div class="vincular-card">
+
+                <div class="vincular-card-header">
+                    <h2>Vincula tu cuenta de Roblox</h2>
+                    <p>Pega el link de tu perfil de Roblox y verifícalo.</p>
+                </div>
+
+                <div class="vincular-card-body">
+
+                    <label>Link de tu perfil de Roblox:</label>
+                    <input type="text" id="robloxProfileLink" placeholder="https://www.roblox.com/users/123456789/profile">
+
+                    <button class="vincular-btn" id="robloxLinkBtn">Verificar y vincular</button>
+
+                    <p class="vincular-status" id="robloxStatus"></p>
+
+                    <br>
+
+                    <a href="#" onclick="ocultarVincular(); return false;" style="color:#8a8d94; font-size:13px;">← Volver</a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="sidebar">
+
+        <div class="sidebar-box">
+            <div class="sidebar-box-header">Miembros</div>
+            <div class="sidebar-box-body" id="statsMiembros" style="font-size:13px;color:#b8bac0;">
+                Cargando...
+            </div>
+        </div>
+
+        <div class="sidebar-box">
+            <div class="sidebar-box-header">Estadísticas del foro</div>
+            <div class="sidebar-box-body">
+                <div class="stat-row"><span>Mensajes</span><strong id="statMensajes">—</strong></div>
+                <div class="stat-row"><span>Miembros</span><strong id="statMiembros">—</strong></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="js/foro.js"></script>
+
+</body>
+</html>
