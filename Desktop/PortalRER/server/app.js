@@ -16,6 +16,7 @@ const requestsRoutes = require("./routes/requests");
 const adminRoutes = require("./routes/admin");
 const robloxRoutes = require("./routes/roblox");
 const usersRoutes = require("./routes/users");
+const chatRoutes = require("./routes/chat");
 
 const app = express();
 
@@ -111,6 +112,11 @@ app.use(
 app.use(
     "/api/users",
     usersRoutes
+);
+
+app.use(
+    "/api/chat", 
+    chatRoutes
 );
 
 /* ===========================
