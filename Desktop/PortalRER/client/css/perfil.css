@@ -358,3 +358,54 @@ nav a:hover{
     }
 
 }
+
+
+/* ================= INPUT DE ARCHIVO ESTILIZADO ================= */
+
+#avatarInputLabel{
+
+    display:inline-block;
+
+    border:1px solid #50545c;
+
+    border-radius:8px;
+
+    padding:9px 16px;
+
+    font-size:13px;
+
+    color:#dcdcdc;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+#avatarInputLabel:hover{
+
+    background:#2a2b30;
+
+    border-color:#676c76;
+
+}
+
+#avatarFileName{
+
+    display:block;
+
+    margin-top:8px;
+
+    font-size:12px;
+
+    color:#8a8d94;
+
+    max-width:220px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+
+}
