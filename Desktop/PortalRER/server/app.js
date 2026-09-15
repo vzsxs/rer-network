@@ -15,6 +15,7 @@ const groupsRoutes = require("./routes/groups");
 const requestsRoutes = require("./routes/requests");
 const adminRoutes = require("./routes/admin");
 const robloxRoutes = require("./routes/roblox");
+const usersRoutes = require("./routes/users");
 
 const app = express();
 
@@ -105,6 +106,11 @@ app.use(
 app.use(
     "/api/roblox",
     robloxRoutes
+);
+
+app.use(
+    "/api/users",
+    usersRoutes
 );
 
 /* ===========================
