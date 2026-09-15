@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Perfil - Portal RER</title>
+
+<link rel="icon" href="/favicon.ico">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/perfil.css">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        Portal RER
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html">Inicio</a>
+        <a href="groups.html">Grupos</a>
+        <a href="#">Noticias</a>
+        <a href="perfil.html">Perfil</a>
+
+    </nav>
+
+</header>
+
+<div class="perfil-wrapper">
+
+    <div class="perfil-card">
+
+        <div class="avatar-container">
+
+            <img id="avatarImg" class="avatar-img" src="" alt="Foto de perfil">
+
+            <!-- Solo aparece si es TU propio perfil -->
+            <div id="cambiarFotoBox" style="display:none;">
+
+                <input type="file" id="avatarInput" accept="image/png, image/jpeg, image/webp">
+
+                <button id="subirAvatarBtn">📷 Cambiar foto</button>
+
+            </div>
+
+        </div>
+
+        <h2 id="perfilNombre">Cargando...</h2>
+
+        <p id="perfilGrupoRango"></p>
+
+        <div id="descripcionView">
+
+            <p id="perfilDescripcion"></p>
+
+        </div>
+
+        <!-- Solo aparece si es TU propio perfil -->
+        <div id="editarDescripcionBox" style="display:none;">
+
+            <textarea id="descripcionInput" maxlength="300" placeholder="Escribe una breve descripción sobre ti..."></textarea>
+
+            <button id="guardarDescripcionBtn">Guardar descripción</button>
+
+        </div>
+
+        <p id="perfilMensaje"></p>
+
+    </div>
+
+</div>
+
+<!-- Canvas oculto, se usa solo para recortar la imagen a cuadrada antes de subirla -->
+<canvas id="cropCanvas" width="256" height="256" style="display:none;"></canvas>
+
+<script src="js/perfil.js"></script>
+
+</body>
+</html>
