@@ -49,7 +49,11 @@
             <!-- Solo aparece si es TU propio perfil -->
             <div id="cambiarFotoBox" style="display:none;">
 
-                <input type="file" id="avatarInput" accept="image/png, image/jpeg, image/webp">
+                <input type="file" id="avatarInput" accept="image/png, image/jpeg, image/webp" hidden>
+
+                <label for="avatarInput" id="avatarInputLabel">Elegir imagen</label>
+
+                <span id="avatarFileName">Ningún archivo seleccionado</span>
 
                 <button id="subirAvatarBtn">📷 Cambiar foto</button>
 
