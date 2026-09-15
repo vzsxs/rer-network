@@ -90,84 +90,228 @@ async function cargarPerfil() {
 
 
 /* ==========================
-   RECORTAR IMAGEN A CUADRADA
-   (recorte central, igual que hace Discord)
+   EDITOR DE RECORTE (arrastrar + zoom)
 ========================== */
 
-function recortarImagenCuadrada(file) {
+const TAMAÑO_CONTENEDOR = 260; // debe coincidir con .crop-container en el CSS
+const TAMAÑO_SALIDA = 256;     // tamaño final de la imagen subida
 
-    return new Promise((resolve, reject) => {
+const cropModal = document.getElementById("cropModal");
+const cropContainer = document.getElementById("cropContainer");
+const cropImage = document.getElementById("cropImage");
+const zoomSlider = document.getElementById("zoomSlider");
 
-        const img = new Image();
-        const url = URL.createObjectURL(file);
+let imgNaturalWidth = 0;
+let imgNaturalHeight = 0;
+let minScale = 1;
+let escalaActual = 1;
+let offsetX = 0;
+let offsetY = 0;
+let arrastrando = false;
+let inicioMouseX = 0;
+let inicioMouseY = 0;
+let inicioOffsetX = 0;
+let inicioOffsetY = 0;
 
-        img.onload = () => {
 
-            const canvas = document.getElementById("cropCanvas");
-            const ctx = canvas.getContext("2d");
+function aplicarTransformImagen() {
 
-            const tamaño = Math.min(img.width, img.height);
+    cropImage.style.width = (imgNaturalWidth * escalaActual) + "px";
+    cropImage.style.height = (imgNaturalHeight * escalaActual) + "px";
+    cropImage.style.left = offsetX + "px";
+    cropImage.style.top = offsetY + "px";
 
-            const offsetX = (img.width - tamaño) / 2;
-            const offsetY = (img.height - tamaño) / 2;
+}
 
-            canvas.width = 256;
-            canvas.height = 256;
 
-            ctx.clearRect(0, 0, 256, 256);
+function limitarOffsets() {
 
-            ctx.drawImage(
-                img,
-                offsetX, offsetY, tamaño, tamaño,
-                0, 0, 256, 256
-            );
+    const anchoImg = imgNaturalWidth * escalaActual;
+    const altoImg = imgNaturalHeight * escalaActual;
 
-            canvas.toBlob((blob) => {
+    const minX = TAMAÑO_CONTENEDOR - anchoImg;
+    const minY = TAMAÑO_CONTENEDOR - altoImg;
 
-                URL.revokeObjectURL(url);
-                resolve(blob);
+    offsetX = Math.min(0, Math.max(minX, offsetX));
+    offsetY = Math.min(0, Math.max(minY, offsetY));
 
-            }, "image/png");
+}
 
-        };
 
-        img.onerror = reject;
+function abrirEditorRecorte(file) {
 
-        img.src = url;
+    const url = URL.createObjectURL(file);
+
+    cropImage.onload = () => {
+
+        imgNaturalWidth = cropImage.naturalWidth;
+        imgNaturalHeight = cropImage.naturalHeight;
+
+        minScale = Math.max(
+            TAMAÑO_CONTENEDOR / imgNaturalWidth,
+            TAMAÑO_CONTENEDOR / imgNaturalHeight
+        );
+
+        escalaActual = minScale;
+
+        offsetX = (TAMAÑO_CONTENEDOR - imgNaturalWidth * escalaActual) / 2;
+        offsetY = (TAMAÑO_CONTENEDOR - imgNaturalHeight * escalaActual) / 2;
+
+        zoomSlider.value = 0; // 0 = sin zoom extra (mínimo que cubre el círculo)
+
+        aplicarTransformImagen();
+
+        cropModal.style.display = "flex";
+
+    };
+
+    cropImage.src = url;
+
+}
+
+
+// ===== ZOOM =====
+
+zoomSlider.addEventListener("input", () => {
+
+    const porcentaje = Number(zoomSlider.value) / 100; // 0 a 1
+
+    const nuevaEscala = minScale + porcentaje * (minScale * 2); // hasta 3x el mínimo
+
+    // Mantener el punto central del contenedor fijo al hacer zoom
+
+    const centroXImagen = (TAMAÑO_CONTENEDOR / 2 - offsetX) / escalaActual;
+    const centroYImagen = (TAMAÑO_CONTENEDOR / 2 - offsetY) / escalaActual;
+
+    escalaActual = nuevaEscala;
+
+    offsetX = TAMAÑO_CONTENEDOR / 2 - centroXImagen * escalaActual;
+    offsetY = TAMAÑO_CONTENEDOR / 2 - centroYImagen * escalaActual;
+
+    limitarOffsets();
+    aplicarTransformImagen();
+
+});
+
+
+// ===== ARRASTRAR (mouse) =====
+
+cropContainer.addEventListener("mousedown", (e) => {
+
+    arrastrando = true;
+    inicioMouseX = e.clientX;
+    inicioMouseY = e.clientY;
+    inicioOffsetX = offsetX;
+    inicioOffsetY = offsetY;
+
+});
+
+window.addEventListener("mousemove", (e) => {
+
+    if (!arrastrando) return;
+
+    offsetX = inicioOffsetX + (e.clientX - inicioMouseX);
+    offsetY = inicioOffsetY + (e.clientY - inicioMouseY);
+
+    limitarOffsets();
+    aplicarTransformImagen();
+
+});
+
+window.addEventListener("mouseup", () => {
+
+    arrastrando = false;
+
+});
+
+
+// ===== ARRASTRAR (touch, para móvil) =====
+
+cropContainer.addEventListener("touchstart", (e) => {
+
+    arrastrando = true;
+    inicioMouseX = e.touches[0].clientX;
+    inicioMouseY = e.touches[0].clientY;
+    inicioOffsetX = offsetX;
+    inicioOffsetY = offsetY;
+
+});
+
+window.addEventListener("touchmove", (e) => {
+
+    if (!arrastrando) return;
+
+    offsetX = inicioOffsetX + (e.touches[0].clientX - inicioMouseX);
+    offsetY = inicioOffsetY + (e.touches[0].clientY - inicioMouseY);
+
+    limitarOffsets();
+    aplicarTransformImagen();
+
+});
+
+window.addEventListener("touchend", () => {
+
+    arrastrando = false;
+
+});
+
+
+// ===== GENERAR LA IMAGEN FINAL RECORTADA =====
+
+function generarBlobRecortado() {
+
+    return new Promise((resolve) => {
+
+        const canvas = document.getElementById("cropCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = TAMAÑO_SALIDA;
+        canvas.height = TAMAÑO_SALIDA;
+
+        ctx.clearRect(0, 0, TAMAÑO_SALIDA, TAMAÑO_SALIDA);
+
+        // Mapeamos exactamente lo que se ve dentro del círculo (0,0)-(260,260)
+        // de vuelta a coordenadas de la imagen original
+
+        const sx = (0 - offsetX) / escalaActual;
+        const sy = (0 - offsetY) / escalaActual;
+        const sSize = TAMAÑO_CONTENEDOR / escalaActual;
+
+        ctx.drawImage(
+            cropImage,
+            sx, sy, sSize, sSize,
+            0, 0, TAMAÑO_SALIDA, TAMAÑO_SALIDA
+        );
+
+        canvas.toBlob((blob) => resolve(blob), "image/png");
 
     });
 
 }
 
 
-/* ==========================
-   SUBIR AVATAR
-========================== */
+document.getElementById("cropCancelBtn").addEventListener("click", () => {
 
-async function subirAvatar() {
+    cropModal.style.display = "none";
+    document.getElementById("avatarInput").value = "";
 
-    const input = document.getElementById("avatarInput");
+});
+
+
+document.getElementById("cropConfirmBtn").addEventListener("click", async () => {
+
     const mensaje = document.getElementById("perfilMensaje");
+    const confirmBtn = document.getElementById("cropConfirmBtn");
 
-    if (!input.files || input.files.length === 0) {
-
-        mensaje.textContent = "❌ Selecciona una imagen primero.";
-        return;
-
-    }
-
-    const archivoOriginal = input.files[0];
-
-    mensaje.textContent = "⏳ Procesando imagen...";
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = "Subiendo...";
 
     try {
 
-        const blobRecortado = await recortarImagenCuadrada(archivoOriginal);
+        const blob = await generarBlobRecortado();
 
         const formData = new FormData();
-        formData.append("avatar", blobRecortado, "avatar.png");
-
-        mensaje.textContent = "⏳ Subiendo foto...";
+        formData.append("avatar", blob, "avatar.png");
 
         const respuesta = await fetch("/api/users/me/avatar", {
 
@@ -193,14 +337,33 @@ async function subirAvatar() {
         document.getElementById("avatarImg").src = datos.avatar_url;
         mensaje.textContent = "✅ Foto actualizada.";
 
+        cropModal.style.display = "none";
+        document.getElementById("avatarInput").value = "";
+
     } catch (error) {
 
         console.error(error);
         mensaje.textContent = "❌ No se pudo procesar la imagen.";
 
+    } finally {
+
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Guardar foto";
+
     }
 
-}
+});
+
+
+document.getElementById("avatarInput")?.addEventListener("change", (e) => {
+
+    if (e.target.files && e.target.files.length > 0) {
+
+        abrirEditorRecorte(e.target.files[0]);
+
+    }
+
+});
 
 
 /* ==========================
@@ -249,23 +412,6 @@ async function guardarDescripcion() {
 }
 
 
-document.getElementById("avatarInput")?.addEventListener("change", (e) => {
-
-    const nombreSpan = document.getElementById("avatarFileName");
-
-    if (e.target.files && e.target.files.length > 0) {
-
-        nombreSpan.textContent = e.target.files[0].name;
-
-    } else {
-
-        nombreSpan.textContent = "Ningún archivo seleccionado";
-
-    }
-
-});
-
-document.getElementById("subirAvatarBtn")?.addEventListener("click", subirAvatar);
 document.getElementById("guardarDescripcionBtn")?.addEventListener("click", guardarDescripcion);
 
 
