@@ -1,73 +1,208 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Grupos - Portal RER</title>
-
-<link rel="icon" href="/favicon.ico">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="css/groups.css">
-
-</head>
-
-<body>
-
-<header class="navbar">
-    <div class="logo">Portal RER</div>
-    <nav>
-        <a href="dashboard.html">Inicio</a>
-        <a href="foro.html">Foro</a>
-        <a href="miembros.html">Miembros</a>
-        <a href="groups.html" class="active">Grupos</a>
-        <a href="perfil.html">Perfil</a>
-    </nav>
-</header>
-
-<div class="breadcrumb"><strong>Inicio</strong> › Grupos</div>
-<h1 class="titulo-pagina">Organizaciones</h1>
-
-<div class="layout">
-
-    <div>
-
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">
-                Categorías
-            </div>
-            <div class="sidebar-box-body">
-                <a href="#" class="sidebar-link">Todas las organizaciones <span class="badge" id="totalGrupos">—</span></a>
-            </div>
-        </div>
-
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">Grupos recientes</div>
-            <div class="sidebar-box-body" id="gruposRecientes">
-                <p style="padding:14px;font-size:12px;color:#7a7d84;">Cargando...</p>
-            </div>
-        </div>
-
-    </div>
-
-    <div>
-
-        <div id="groupsContainer" class="groups-grid">
-            <p style="color:#7a7d84;">Cargando grupos...</p>
-        </div>
-
-    </div>
-
-</div>
-
-<script src="js/groups.js"></script>
-
-</body>
-</html>
+const express = require("express");
+const router = express.Router();
+ 
+const supabase = require("../config/supabase");
+ 
+console.log("🔥 GROUPS ROUTE CARGADA");
+ 
+ 
+/* ==========================
+   OBTENER TODOS LOS GRUPOS
+   (con conteo real de miembros)
+========================== */
+ 
+router.get("/", async (req, res) => {
+ 
+    try {
+ 
+        const { data: grupos, error } = await supabase
+            .from("groups")
+            .select("*")
+            .order("nombre");
+ 
+ 
+        if (error) {
+ 
+            return res.status(500).json({
+                error: error.message
+            });
+ 
+        }
+ 
+ 
+        // Traemos TODAS las membresías de una sola vez
+        // y contamos cuántas hay por grupo
+ 
+        const { data: miembros, error: miembrosError } = await supabase
+            .from("group_members")
+            .select("group_id");
+ 
+ 
+        if (miembrosError) {
+ 
+            return res.status(500).json({
+                error: miembrosError.message
+            });
+ 
+        }
+ 
+ 
+        const conteos = {};
+ 
+        for (const m of miembros) {
+            conteos[m.group_id] = (conteos[m.group_id] || 0) + 1;
+        }
+ 
+ 
+        const gruposConConteo = grupos.map(grupo => ({
+            ...grupo,
+            miembros: conteos[grupo.id] || 0
+        }));
+ 
+ 
+        res.json(gruposConConteo);
+ 
+    } catch (err) {
+ 
+        res.status(500).json({
+            error: err.message
+        });
+ 
+    }
+ 
+});
+ 
+ 
+ 
+ 
+/* ==========================
+   OBTENER MIEMBROS DEL GRUPO
+   (con foto de perfil, para mostrar los avatares apilados)
+========================== */
+ 
+router.get("/:slug/members", async (req, res) => {
+ 
+    try {
+ 
+        const slug = req.params.slug;
+ 
+ 
+        const { data: grupo, error: grupoError } = await supabase
+            .from("groups")
+            .select("id")
+            .eq("slug", slug)
+            .single();
+ 
+ 
+        if (grupoError || !grupo) {
+ 
+            return res.status(404).json({
+                error: "Grupo no encontrado"
+            });
+ 
+        }
+ 
+ 
+ 
+        const { data: miembros, error: miembrosError } = await supabase
+            .from("group_members")
+            .select(`
+                rango,
+                users(
+                    id,
+                    nombre,
+                    email,
+                    avatar_url
+                )
+            `)
+            .eq("group_id", grupo.id);
+ 
+ 
+        if (miembrosError) {
+ 
+            return res.status(500).json({
+                error: miembrosError.message
+            });
+ 
+        }
+ 
+ 
+        res.json(miembros);
+ 
+    } catch (err) {
+ 
+        res.status(500).json({
+            error: err.message
+        });
+ 
+    }
+ 
+});
+ 
+ 
+ 
+ 
+/* ==========================
+   OBTENER GRUPO POR SLUG
+   (con conteo real de miembros)
+========================== */
+ 
+router.get("/:slug", async (req, res) => {
+ 
+    try {
+ 
+        const slug = req.params.slug;
+ 
+ 
+        const { data: grupo, error } = await supabase
+            .from("groups")
+            .select("*")
+            .eq("slug", slug)
+            .single();
+ 
+ 
+ 
+        if (error) {
+ 
+            return res.status(404).json({
+                error: "Grupo no encontrado"
+            });
+ 
+        }
+ 
+ 
+        const { count, error: countError } = await supabase
+            .from("group_members")
+            .select("id", { count: "exact", head: true })
+            .eq("group_id", grupo.id);
+ 
+ 
+        if (countError) {
+ 
+            return res.status(500).json({
+                error: countError.message
+            });
+ 
+        }
+ 
+ 
+        res.json({
+            ...grupo,
+            miembros: count || 0
+        });
+ 
+ 
+ 
+    } catch (err) {
+ 
+        res.status(500).json({
+            error: err.message
+        });
+ 
+    }
+ 
+});
+ 
+ 
+module.exports = router;
+ 
