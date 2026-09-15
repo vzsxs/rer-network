@@ -1,0 +1,332 @@
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
+
+:root{
+    --accent:#3a3b40;
+    --accent-soft:#2c2d32;
+    --bg-panel:#1f2024;
+    --bg-panel-header:#26272c;
+    --border:#33343a;
+}
+
+/* ================= NAVBAR ================= */
+
+.navbar{
+    width:100%;
+    height:56px;
+    background:#1a1b1f;
+    display:flex;
+    align-items:center;
+    padding:0 24px;
+    border-bottom:1px solid var(--border);
+    gap:32px;
+    position:sticky;
+    top:0;
+    z-index:1000;
+}
+
+.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:white;}
+
+nav{display:flex;gap:8px;flex:1;}
+
+nav a{
+    color:#a8aab0;
+    text-decoration:none;
+    font-size:14px;
+    padding:8px 16px;
+    border-radius:4px;
+    transition:.2s;
+}
+
+nav a:hover{color:#fff;background:#26272c;}
+
+nav a.active{
+    color:#fff;
+    background:var(--accent-soft);
+    box-shadow:inset 0 0 0 1px #45464c;
+}
+
+/* ================= LAYOUT ================= */
+
+.layout{
+    max-width:1200px;
+    margin:24px auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:1fr 280px;
+    gap:20px;
+}
+
+.breadcrumb{color:#7a7d84;font-size:13px;margin-bottom:14px;}
+.breadcrumb strong{color:#dcdcdc;}
+
+/* ================= CHAT BOX ================= */
+
+.chat-box{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.chat-box-header{
+    background:var(--bg-panel-header);
+    padding:12px 16px;
+    font-size:14px;
+    font-weight:bold;
+    border-bottom:1px solid var(--border);
+}
+
+.mensajes-container{
+    height:420px;
+    overflow-y:auto;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+}
+
+.cargando{color:#7a7d84;text-align:center;margin-top:20px;font-size:13px;}
+
+.mensaje-fila{display:flex;gap:10px;}
+
+.mensaje-avatar{
+    width:32px;
+    height:32px;
+    border-radius:50%;
+    object-fit:cover;
+    background:var(--accent);
+    flex-shrink:0;
+}
+
+.mensaje-contenido{flex:1;min-width:0;}
+
+.mensaje-header{display:flex;align-items:baseline;gap:8px;}
+
+.mensaje-nombre{font-weight:bold;font-size:13px;color:#dcdcdc;}
+
+.mensaje-hora{font-size:11px;color:#7a7d84;}
+
+.mensaje-texto{
+    font-size:13px;
+    color:#b8bac0;
+    margin-top:2px;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
+
+.chat-input-row{
+    display:flex;
+    gap:8px;
+    padding:12px;
+    border-top:1px solid var(--border);
+    background:#1a1b1f;
+}
+
+.chat-input-row input{
+    flex:1;
+    background:#15161a;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:9px 12px;
+    color:#fff;
+    font-size:13px;
+}
+
+.chat-input-row input:focus{outline:none;border-color:#54565e;}
+
+.chat-input-row button{
+    background:var(--accent);
+    color:#fff;
+    border:1px solid #45464c;
+    border-radius:6px;
+    padding:9px 18px;
+    cursor:pointer;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.chat-input-row button:hover{background:#45464c;}
+
+/* ================= PANEL DE INFORMACIÓN ================= */
+
+.info-panel{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+.info-panel-header{
+    background:var(--bg-panel-header);
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+}
+
+.info-panel-header h2{font-size:15px;margin-bottom:3px;}
+.info-panel-header p{font-size:12px;color:#8a8d94;}
+
+.info-row{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    padding:14px 18px;
+    border-bottom:1px solid var(--border);
+    cursor:pointer;
+    transition:.15s;
+    text-decoration:none;
+    color:inherit;
+}
+
+.info-row:last-child{border-bottom:none;}
+.info-row:hover{background:#25262b;}
+
+.info-icon{
+    width:36px;
+    height:36px;
+    border-radius:6px;
+    background:#2c2d32;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+    flex-shrink:0;
+}
+
+.info-row-texto h3{font-size:14px;margin-bottom:2px;color:#fff;}
+.info-row-texto p{font-size:12px;color:#8a8d94;}
+
+/* ================= VISTA VINCULAR ROBLOX ================= */
+
+.vincular-header{margin-bottom:16px;}
+.vincular-header h1{font-size:24px;margin-bottom:4px;}
+.vincular-header p{font-size:13px;color:#8a8d94;}
+
+.vincular-card{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.vincular-card-header{
+    background:var(--bg-panel-header);
+    padding:16px 20px;
+    border-bottom:1px solid var(--border);
+}
+
+.vincular-card-header h2{font-size:16px;margin-bottom:4px;}
+.vincular-card-header p{font-size:12px;color:#8a8d94;}
+
+.vincular-card-body{padding:24px 20px;}
+
+.vincular-card-body label{
+    display:block;
+    font-size:13px;
+    color:#b8bac0;
+    margin-bottom:8px;
+}
+
+.vincular-card-body input{
+    width:100%;
+    max-width:420px;
+    background:#15161a;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:11px 14px;
+    color:#fff;
+    font-size:13px;
+    margin-bottom:14px;
+    display:block;
+}
+
+.vincular-card-body input:focus{outline:none;border-color:#54565e;}
+
+.vincular-btn{
+    background:var(--accent);
+    color:#fff;
+    border:1px solid #45464c;
+    border-radius:6px;
+    padding:10px 20px;
+    font-size:13px;
+    cursor:pointer;
+    max-width:420px;
+    width:100%;
+}
+
+.vincular-btn:hover{background:#45464c;}
+
+.vincular-status{font-size:13px;margin-top:14px;min-height:16px;}
+
+/* ================= SIDEBAR ================= */
+
+.sidebar-box{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:16px;
+    overflow:hidden;
+}
+
+.sidebar-box-header{
+    background:var(--bg-panel-header);
+    padding:10px 14px;
+    font-size:13px;
+    font-weight:bold;
+    border-bottom:1px solid var(--border);
+}
+
+.sidebar-box-body{padding:12px 14px;}
+
+.stat-row{
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:#b8bac0;
+    padding:6px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.stat-row:last-child{border-bottom:none;}
+.stat-row strong{color:#fff;}
+
+/* ================= MIEMBROS GRID (dentro del foro) ================= */
+
+.miembros-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
+    gap:14px;
+}
+
+.miembro-card{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 12px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.miembro-card:hover{border-color:#54565e;}
+
+.miembro-avatar-grande{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    object-fit:cover;
+    background:var(--accent);
+    margin:0 auto 10px;
+}
+
+.miembro-card h3{font-size:14px;margin-bottom:2px;}
+.miembro-card p{font-size:11px;color:#9a9ca3;text-transform:uppercase;}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+    .layout{grid-template-columns:1fr;}
+    nav{display:none;}
+}
