@@ -249,6 +249,22 @@ async function guardarDescripcion() {
 }
 
 
+document.getElementById("avatarInput")?.addEventListener("change", (e) => {
+
+    const nombreSpan = document.getElementById("avatarFileName");
+
+    if (e.target.files && e.target.files.length > 0) {
+
+        nombreSpan.textContent = e.target.files[0].name;
+
+    } else {
+
+        nombreSpan.textContent = "Ningún archivo seleccionado";
+
+    }
+
+});
+
 document.getElementById("subirAvatarBtn")?.addEventListener("click", subirAvatar);
 document.getElementById("guardarDescripcionBtn")?.addEventListener("click", guardarDescripcion);
 
