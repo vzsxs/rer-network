@@ -23,183 +23,89 @@
 
 <header class="navbar">
 
-    <div class="logo">
-        Portal RER
-    </div>
+    <div class="logo">Portal RER</div>
 
     <nav>
 
-        <a href="dashboard.html">
-            Inicio
-        </a>
-
-        <a href="groups.html">
-            Grupos
-        </a>
-
-        <a href="foro.html">
-            Foro
-        </a>
-
-        <a href="miembros.html">
-            Miembros
-        </a>
+        <a href="dashboard.html" class="active">Inicio</a>
+        <a href="groups.html">Grupos</a>
+        <a href="foro.html">Foro</a>
+        <a href="miembros.html">Miembros</a>
 
         <a
             href="admin.html"
             id="adminLink"
             style="display:none;"
         >
-             Solicitudes
+            Solicitudes
         </a>
 
-        <a href="#">
-            Noticias
-        </a>
-
-        <a href="perfil.html">
-            Perfil
-        </a>
+        <a href="#">Noticias</a>
+        <a href="perfil.html">Perfil</a>
 
     </nav>
 
     <div class="profile-mini">
-
-        <span id="nombreMini">
-            Usuario
-        </span>
-
+        <span id="nombreMini">Usuario</span>
+        <button id="logoutBtn" class="logout-mini-btn">Cerrar sesión</button>
     </div>
 
 </header>
 
-<div class="wrapper">
-
-<section>
-
 <div class="hero">
 
     <div class="hero-text">
-
-        <h1>
-            Bienvenido al Portal RER
-        </h1>
-
-        <p>
-            Plataforma de gestión y organizaciones
-        </p>
-
+        <h1>Bienvenido al Portal RER</h1>
+        <p>Plataforma de gestión y organizaciones</p>
     </div>
 
 </div>
 
-<h2 class="titulo">
-Panel principal
-</h2>
+<div class="container">
 
-<div class="cards">
+    <h2 class="titulo">Panel principal</h2>
 
-<div class="card">
+    <div class="cards-grid">
 
-<h3>
-🛡 Grupos
-</h3>
+        <div class="panel">
+            <div class="panel-header">🛡 Grupos</div>
+            <div class="panel-body">
+                <p>Explora organizaciones disponibles y solicita ingreso.</p>
+                <a href="groups.html" class="panel-link">Ver grupos →</a>
+            </div>
+        </div>
 
-<p>
-Explora organizaciones disponibles y solicita ingreso.
-</p>
+        <div class="panel">
+            <div class="panel-header">💬 Foro</div>
+            <div class="panel-body">
+                <p>Chatea con la comunidad y consulta información importante.</p>
+                <a href="foro.html" class="panel-link">Ir al foro →</a>
+            </div>
+        </div>
 
-<br>
+        <div class="panel">
+            <div class="panel-header">📢 Noticias</div>
+            <div class="panel-body">
+                <p>Revisa comunicados oficiales del portal.</p>
+            </div>
+        </div>
 
-<a href="groups.html">
-Ver grupos →
-</a>
+        <div class="panel">
+            <div class="panel-header">📂 Documentos</div>
+            <div class="panel-body">
+                <p>Archivos y reglamentos importantes.</p>
+            </div>
+        </div>
 
-</div>
+        <div class="panel">
+            <div class="panel-header">👥 Miembros</div>
+            <div class="panel-body">
+                <p>Consulta el personal registrado en el portal.</p>
+                <a href="miembros.html" class="panel-link">Ver miembros →</a>
+            </div>
+        </div>
 
-<div class="card">
-
-<h3>
-📢 Noticias
-</h3>
-
-<p>
-Revisa comunicados oficiales del portal.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>
-📂 Documentos
-</h3>
-
-<p>
-Archivos y reglamentos importantes.
-</p>
-
-</div>
-
-<div class="card">
-
-<h3>
-👥 Comunidad
-</h3>
-
-<p>
-Interacción entre miembros.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-<aside class="profile-card">
-
-<h2>
-Perfil
-</h2>
-
-<hr>
-
-<br>
-
-<h3 id="nombreUsuario">
-Cargando...
-</h3>
-
-<p id="rolUsuario">
-Cargando...
-</p>
-
-<hr>
-
-<br>
-
-<input
-    type="text"
-    id="robloxProfileLink"
-    placeholder="Pega el link de tu perfil de Roblox"
->
-
-<br><br>
-
-<button id="robloxLinkBtn">
-🎮 Vincular cuenta de Roblox
-</button>
-
-<p id="robloxStatus"></p>
-
-<br>
-
-<button id="logoutBtn">
-Cerrar sesión
-</button>
-
-</aside>
+    </div>
 
 </div>
 
