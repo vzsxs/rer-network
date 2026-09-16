@@ -8,89 +8,95 @@
 
     <title>Registro - Portal RER</title>
 
+    <link rel="icon" href="/favicon.ico">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/register.css">
 
 </head>
 
 <body>
 
-    <div class="container">
+<header class="navbar">
+    <div class="logo">Portal RER</div>
+</header>
 
-        <h1>Portal RER</h1>
+<div class="breadcrumb"><a href="index.html">Inicio</a></div>
 
-        <p>Crear una cuenta</p>
+<h1 class="titulo-pagina">Registro</h1>
 
-        <form id="registerForm">
+<div class="form-wrapper">
 
-            <label>Nombre de usuario</label>
+    <form id="registerForm" class="form-card">
 
-            <input
-                type="text"
-                id="nombre"
-                placeholder="Ej: Juan"
-                required
-            >
+        <div class="form-row">
+            <div class="form-label">
+                <label>Nombre de usuario:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="text" id="nombre" placeholder="Ej: Juan" required>
+            </div>
+        </div>
 
-            <label>Correo electrónico</label>
+        <div class="form-row">
+            <div class="form-label">
+                <label>Correo electrónico:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="email" id="email" placeholder="correo@ejemplo.com" required>
+            </div>
+        </div>
 
-            <input
-                type="email"
-                id="email"
-                placeholder="correo@ejemplo.com"
-                required
-            >
+        <div class="form-row">
+            <div class="form-label">
+                <label>Contraseña:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="password" id="password" required>
+            </div>
+        </div>
 
-            <label>Contraseña</label>
+        <div class="form-row">
+            <div class="form-label">
+                <label>Confirmar contraseña:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="password" id="confirmPassword" required>
+            </div>
+        </div>
 
-            <input
-                type="password"
-                id="password"
-                required
-            >
+        <div class="form-row">
+            <div class="form-label">
+                <label>Código de invitación:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="text" id="inviteCode" placeholder="RER2026" required>
+            </div>
+        </div>
 
-            <label>Confirmar contraseña</label>
+        <div class="form-row form-row-final">
+            <div class="form-label"></div>
+            <div class="form-input">
+                <button type="submit" class="btn-registrar">Registrarse</button>
+                <p id="mensaje"></p>
+                <a href="login.html" class="link-login">← Ya tengo una cuenta</a>
+            </div>
+        </div>
 
-            <input
-                type="password"
-                id="confirmPassword"
-                required
-            >
+    </form>
 
-            <label>Código de invitación</label>
+</div>
 
-            <input
-                type="text"
-                id="inviteCode"
-                placeholder="RER2026"
-                required
-            >
-
-            <button type="submit">
-
-                Registrarse
-
-            </button>
-
-        </form>
-
-        <p id="mensaje"></p>
-
-        <br>
-
-        <a href="login.html">
-
-            ← Ya tengo una cuenta
-
-        </a>
-
-    </div>
-
-    <script src="js/register.js"></script>
+<script src="js/register.js"></script>
 
 </body>
 
