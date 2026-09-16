@@ -341,3 +341,14 @@ cargarMensajes();
 cargarMiembros(); // para tener las estadísticas del sidebar desde ya
 
 setInterval(cargarMensajes, 4000);
+
+// Si vienen con ?tab=miembros en la URL (ej. desde el navbar de otra página),
+// abrimos esa pestaña directamente
+
+const parametrosURL = new URLSearchParams(window.location.search);
+
+if (parametrosURL.get("tab") === "miembros") {
+
+    mostrar("miembros", document.getElementById("navMiembros"));
+
+}
