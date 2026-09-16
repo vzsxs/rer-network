@@ -1,395 +1,186 @@
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
+
+:root{
+    --accent:#3a3b40;
+    --accent-soft:#2c2d32;
+    --bg-panel:#1f2024;
+    --bg-panel-header:#26272c;
+    --border:#33343a;
 }
-
-body{
-
-    background:#18191c;
-
-    color:#fff;
-
-    font-family:Arial, Helvetica, sans-serif;
-
-}
-
-
 
 /* ================= NAVBAR ================= */
 
 .navbar{
-
-    position:fixed;
-
-    top:0;
-
-    left:0;
-
     width:100%;
-
-    height:75px;
-
-    background:#202225;
-
+    height:56px;
+    background:#1a1b1f;
     display:flex;
-
     align-items:center;
-
-    justify-content:space-between;
-
-    padding:0 40px;
-
-    border-bottom:1px solid #313338;
-
+    padding:0 24px;
+    border-bottom:1px solid var(--border);
+    gap:32px;
+    position:sticky;
+    top:0;
     z-index:1000;
-
 }
 
-.logo{
+.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:white;}
 
-    font-family:"UnifrakturCook", cursive;
-
-    font-size:38px;
-
-    color:white;
-
-    flex:1;
-
-}
-
-nav{
-
-    display:flex;
-
-    gap:35px;
-
-    flex:2;
-
-    justify-content:center;
-
-}
+nav{display:flex;gap:8px;flex:1;}
 
 nav a{
-
-    color:#cfcfcf;
-
+    color:#a8aab0;
     text-decoration:none;
-
-    transition:.25s;
-
-    font-size:16px;
-
+    font-size:14px;
+    padding:8px 16px;
+    border-radius:4px;
+    transition:.2s;
 }
 
-nav a:hover{
+nav a:hover{color:#fff;background:#26272c;}
 
-    color:white;
-
+nav a.active{
+    color:#fff;
+    background:var(--accent-soft);
+    box-shadow:inset 0 0 0 1px #45464c;
 }
-
-
 
 /* ================= CONTENEDOR PERFIL ================= */
 
 .perfil-wrapper{
-
     max-width:600px;
-
-    margin:110px auto 40px auto;
-
+    margin:32px auto 40px;
     padding:0 20px;
-
     display:flex;
-
     justify-content:center;
-
 }
 
 .perfil-card{
-
     width:100%;
-
-    background:#232428;
-
-    border:1px solid #34363c;
-
-    border-radius:12px;
-
-    padding:35px;
-
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:32px;
     text-align:center;
-
-    transition:.25s;
-
 }
-
-
 
 /* ================= AVATAR ================= */
 
 .avatar-container{
-
     position:relative;
-
     display:inline-block;
-
     margin-bottom:18px;
-
 }
 
 .avatar-img{
-
     width:128px;
-
     height:128px;
-
     border-radius:50%;
-
     object-fit:cover;
-
-    border:3px solid #34363c;
-
+    border:3px solid var(--border);
     background:#2a2b30;
-
 }
 
 #cambiarFotoBox{
-
     margin-top:14px;
-
     display:flex;
-
     flex-direction:column;
-
     align-items:center;
-
     gap:10px;
-
 }
-
-#avatarInput{
-
-    font-size:12px;
-
-    color:#cfcfcf;
-
-    max-width:240px;
-
-}
-
-#subirAvatarBtn{
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#50545c;
-
-    color:white;
-
-    cursor:pointer;
-
-    transition:.25s;
-
-    padding:10px 18px;
-
-    font-size:13px;
-
-}
-
-#subirAvatarBtn:hover{
-
-    background:#676c76;
-
-}
-
-
 
 /* ================= NOMBRE / GRUPO ================= */
 
 #perfilNombre{
-
     margin:8px 0 4px;
-
-    font-size:24px;
-
+    font-size:22px;
 }
 
 #perfilGrupoRango{
-
     margin:0 0 22px;
-
-    font-size:13px;
-
-    color:#9a9ca3;
-
+    font-size:12px;
+    color:#8a8d94;
     text-transform:uppercase;
-
     letter-spacing:.5px;
-
 }
-
-
 
 /* ================= DESCRIPCIÓN ================= */
 
 #descripcionView p,
 #perfilDescripcion{
-
     font-size:14px;
-
     line-height:1.6;
-
     color:#dcdcdc;
-
     white-space:pre-wrap;
-
     word-break:break-word;
-
 }
 
 #editarDescripcionBox{
-
     margin-top:18px;
-
     display:flex;
-
     flex-direction:column;
-
     gap:12px;
-
 }
 
 #descripcionInput{
-
     width:100%;
-
     min-height:90px;
-
     resize:vertical;
-
-    background:#18191c;
-
+    background:#15161a;
     color:#fff;
-
-    border:1px solid #34363c;
-
-    border-radius:8px;
-
+    border:1px solid var(--border);
+    border-radius:6px;
     padding:12px;
-
     font-family:inherit;
-
     font-size:13px;
-
 }
 
 #descripcionInput:focus{
-
     outline:none;
-
-    border-color:#676c76;
-
+    border-color:#54565e;
 }
 
 #guardarDescripcionBtn{
-
     align-self:flex-end;
-
-    border:none;
-
-    border-radius:8px;
-
-    background:#50545c;
-
-    color:white;
-
+    background:var(--accent);
+    color:#fff;
+    border:1px solid #45464c;
+    border-radius:6px;
+    padding:9px 18px;
     cursor:pointer;
-
-    transition:.25s;
-
-    padding:10px 20px;
-
+    transition:.2s;
     font-size:13px;
-
     font-weight:bold;
-
 }
 
-#guardarDescripcionBtn:hover{
-
-    background:#676c76;
-
-}
-
-
+#guardarDescripcionBtn:hover{background:#45464c;}
 
 /* ================= MENSAJE ================= */
 
 #perfilMensaje{
-
     margin-top:18px;
-
     font-size:13px;
-
     min-height:18px;
-
     color:#8fd39a;
-
 }
-
-
-
-/* ================= RESPONSIVE ================= */
-
-@media(max-width:700px){
-
-    nav{
-
-        display:none;
-
-    }
-
-    .perfil-wrapper{
-
-        margin-top:100px;
-
-    }
-
-}
-
 
 /* ================= INPUT DE ARCHIVO ESTILIZADO ================= */
 
 #avatarInputLabel{
-
     display:inline-block;
-
-    border:1px solid #50545c;
-
-    border-radius:8px;
-
+    background:var(--accent);
+    border:1px solid #45464c;
+    border-radius:6px;
     padding:9px 16px;
-
     font-size:13px;
-
-    color:#dcdcdc;
-
+    color:#fff;
     cursor:pointer;
-
-    transition:.25s;
-
+    transition:.2s;
 }
 
-#avatarInputLabel:hover{
-
-    background:#2a2b30;
-
-    border-color:#676c76;
-
-}
-
+#avatarInputLabel:hover{background:#45464c;}
 
 /* ================= MODAL DE RECORTE DE FOTO ================= */
 
@@ -405,9 +196,9 @@ nav a:hover{
 }
 
 .crop-modal-box{
-    background:#232428;
-    border:1px solid #34363c;
-    border-radius:14px;
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
     padding:24px;
     max-width:360px;
     width:100%;
@@ -415,13 +206,13 @@ nav a:hover{
 }
 
 .crop-modal-box h3{
-    font-size:17px;
+    font-size:16px;
     margin-bottom:4px;
 }
 
 .crop-hint{
     font-size:12px;
-    color:#9a9ca3;
+    color:#8a8d94;
     margin-bottom:18px;
 }
 
@@ -432,15 +223,13 @@ nav a:hover{
     border-radius:50%;
     overflow:hidden;
     position:relative;
-    background:#18191c;
+    background:#15161a;
     cursor:grab;
     touch-action:none;
-    border:2px solid #34363c;
+    border:2px solid var(--border);
 }
 
-.crop-container:active{
-    cursor:grabbing;
-}
+.crop-container:active{cursor:grabbing;}
 
 .crop-container img{
     position:absolute;
@@ -455,40 +244,39 @@ nav a:hover{
     width:100%;
     max-width:260px;
     margin-bottom:20px;
-    accent-color:#676c76;
+    accent-color:#54565e;
 }
 
-.crop-modal-buttons{
-    display:flex;
-    gap:10px;
-}
+.crop-modal-buttons{display:flex;gap:10px;}
 
 .crop-btn-secundario,
 .crop-btn-primario{
     flex:1;
-    border:none;
-    border-radius:8px;
+    border:1px solid #45464c;
+    border-radius:6px;
     padding:10px;
     font-size:13px;
     cursor:pointer;
-    transition:.25s;
+    transition:.2s;
 }
 
 .crop-btn-secundario{
-    background:#34363c;
-    color:#fff;
+    background:transparent;
+    color:#dcdcdc;
 }
 
-.crop-btn-secundario:hover{
-    background:#3f4148;
-}
+.crop-btn-secundario:hover{background:#25262b;}
 
 .crop-btn-primario{
-    background:#fff;
-    color:#18191c;
+    background:var(--accent);
+    color:#fff;
     font-weight:bold;
 }
 
-.crop-btn-primario:hover{
-    opacity:.85;
+.crop-btn-primario:hover{background:#45464c;}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:700px){
+    nav{display:none;}
 }
