@@ -8,82 +8,65 @@
 
     <title>Login - Portal RER</title>
 
+    <link rel="icon" href="/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
-
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
 
 </head>
 
-
 <body>
 
+<header class="navbar">
+    <div class="logo">Portal RER</div>
+</header>
 
-<div class="container">
+<div class="breadcrumb"><a href="index.html">Inicio</a></div>
 
+<h1 class="titulo-pagina">Iniciar sesión</h1>
 
-    <h1>Portal RER</h1>
+<div class="form-wrapper">
 
-    <p>Iniciar sesión</p>
+    <form id="loginForm" class="form-card">
 
+        <div class="form-row">
+            <div class="form-label">
+                <label>Correo electrónico:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="email" id="email" required>
+            </div>
+        </div>
 
+        <div class="form-row">
+            <div class="form-label">
+                <label>Contraseña:</label>
+                <span class="requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="password" id="password" required>
+            </div>
+        </div>
 
-    <form id="loginForm">
-
-
-        <label>Correo electrónico</label>
-
-        <input 
-            type="email"
-            id="email"
-            required
-        >
-
-
-
-        <label>Contraseña</label>
-
-        <input 
-            type="password"
-            id="password"
-            required
-        >
-
-
-
-        <button type="submit">
-            Entrar
-        </button>
-
+        <div class="form-row form-row-final">
+            <div class="form-label"></div>
+            <div class="form-input">
+                <button type="submit" class="btn-registrar">Entrar</button>
+                <p id="mensaje"></p>
+                <a href="register.html" class="link-login">← Crear una cuenta</a>
+            </div>
+        </div>
 
     </form>
 
-
-
-    <p id="mensaje"></p>
-
-
-
-    <br>
-
-
-    <a href="index.html">
-        ← Volver
-    </a>
-
-
-
 </div>
 
-
-
 <script src="js/auth.js"></script>
-
 
 </body>
 
