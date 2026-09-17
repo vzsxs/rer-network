@@ -1,137 +1,323 @@
-body{
+*{margin:0;padding:0;box-sizing:border-box;}
 
-    background:#18191c;
+body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
 
-    color:white;
-
-    font-family:Arial;
-
-    padding:30px;
-
+:root{
+    --accent:#3a3b40;
+    --accent-soft:#2c2d32;
+    --bg-panel:#1f2024;
+    --bg-panel-header:#26272c;
+    --border:#33343a;
 }
 
+/* ================= NAVBAR ================= */
 
-header{
-
+.navbar{
+    width:100%;
+    height:56px;
+    background:#1a1b1f;
     display:flex;
-
-    justify-content:space-between;
-
     align-items:center;
-
+    padding:0 24px;
+    border-bottom:1px solid var(--border);
+    gap:32px;
+    position:sticky;
+    top:0;
+    z-index:1000;
 }
 
+.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:white;}
 
-a{
+nav{display:flex;gap:8px;flex:1;}
 
-    color:#aaa;
-
+nav a{
+    color:#a8aab0;
+    text-decoration:none;
+    font-size:14px;
+    padding:8px 16px;
+    border-radius:4px;
+    transition:.2s;
 }
 
+nav a:hover{color:#fff;background:#26272c;}
 
+nav a.active{
+    color:#fff;
+    background:var(--accent-soft);
+    box-shadow:inset 0 0 0 1px #45464c;
+}
 
-#requestsContainer{
+.profile-mini{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    color:#dcdcdc;
+    font-size:14px;
+}
 
-    margin-top:30px;
+.logout-mini-btn{
+    background:transparent;
+    border:1px solid var(--border);
+    color:#a8aab0;
+    padding:6px 14px;
+    border-radius:6px;
+    font-size:12px;
+    cursor:pointer;
+    transition:.2s;
+}
 
+.logout-mini-btn:hover{background:#25262b;color:#fff;}
+
+/* ================= HERO ================= */
+
+.hero{
+    width:100%;
+    padding:36px 24px;
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    text-align:center;
+}
+
+.hero-text h1{font-size:26px;margin-bottom:8px;}
+.hero-text p{color:#9a9ca3;font-size:14px;max-width:600px;margin:0 auto;}
+
+/* ================= CONTENEDOR ================= */
+
+.container{
+    max-width:1200px;
+    margin:0 auto;
+    padding:30px 20px 60px;
+}
+
+.admin-layout{
     display:grid;
-
-    gap:20px;
-
+    grid-template-columns:1fr 280px;
+    gap:24px;
+    align-items:start;
 }
 
+.titulo{
+    font-size:18px;
+    margin:26px 0 14px;
+}
 
+.titulo:first-child{margin-top:0;}
+
+.subtitulo{
+    font-size:15px;
+    margin:22px 0 10px;
+    color:#dcdcdc;
+}
+
+/* ================= CARDS (solicitudes, miembros, anuncios) ================= */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+    gap:14px;
+    margin-bottom:10px;
+}
 
 .request-card{
-
-    background:#232428;
-
-    border:1px solid #34363c;
-
-    border-radius:12px;
-
-    padding:25px;
-
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+    font-size:13px;
+    color:#b8bac0;
 }
 
-
-
-button{
-
-    padding:12px 20px;
-
-    border:none;
-
-    border-radius:8px;
-
-    cursor:pointer;
-
-    margin-right:10px;
-
-    background:#50545c;
-
-    color:white;
-
+.request-card h2{
+    font-size:15px;
+    color:#fff;
+    margin-bottom:6px;
 }
 
-
-
-button:hover{
-
-    background:#70757d;
-
+.request-card h3{
+    font-size:14px;
+    color:#fff;
+    margin-bottom:4px;
 }
 
-/* ===========================
-   SELECT DE GRUPOS
-=========================== */
+.request-card p{margin-bottom:4px;line-height:1.5;}
 
-#groupSelect {
-
+.request-card select{
     width:100%;
+    margin-top:8px;
+    background:#15161a;
+    color:#fff;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:8px 10px;
+    font-size:13px;
+}
 
-    padding:14px 16px;
-
-    background:#232428;
-
-    color:white;
-
-    border:1px solid #34363c;
-
-    border-radius:12px;
-
-    font-size:16px;
-
+.request-card button{
+    margin-top:10px;
+    margin-right:8px;
+    border:1px solid #45464c;
+    border-radius:6px;
+    padding:8px 16px;
+    font-size:13px;
     cursor:pointer;
+    background:var(--accent);
+    color:#fff;
+    transition:.2s;
+}
 
+.request-card button:hover{background:#45464c;}
+
+.request-card button.accept{
+    background:#2f4a35;
+    border-color:#3f6448;
+}
+
+.request-card button.accept:hover{background:#3a5a41;}
+
+.request-card button.deny{
+    background:#4a2f2f;
+    border-color:#643f3f;
+}
+
+.request-card button.deny:hover{background:#5a3a3a;}
+
+.vacio{color:#7a7d84;font-style:italic;font-size:13px;}
+
+/* ================= PANELES ================= */
+
+.panel{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:10px;
+    overflow:hidden;
+}
+
+.panel-header{
+    background:var(--bg-panel-header);
+    padding:12px 16px;
+    font-size:14px;
+    font-weight:bold;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-body{padding:16px;}
+
+/* ================= FORM FIELDS ================= */
+
+.input-field,
+.textarea-field{
+    width:100%;
+    background:#15161a;
+    color:#fff;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:10px 12px;
+    font-size:13px;
+    font-family:inherit;
+    margin-bottom:12px;
+}
+
+.input-field:focus,
+.textarea-field:focus{
     outline:none;
-
-    transition:0.3s;
-
+    border-color:#54565e;
 }
 
+.textarea-field{resize:vertical;}
 
-#groupSelect:hover{
-
-    border-color:#666;
-
+.btn-primario{
+    background:var(--accent);
+    color:#fff;
+    border:1px solid #45464c;
+    border-radius:6px;
+    padding:10px 20px;
+    font-size:13px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
 }
 
+.btn-primario:hover{background:#45464c;}
 
-#groupSelect:focus{
-
-    border-color:#888;
-
-    box-shadow:0 0 10px rgba(255,255,255,0.15);
-
+.mensaje-estado{
+    margin-top:10px;
+    font-size:13px;
+    min-height:16px;
 }
 
+/* ================= SIDEBAR ================= */
 
+.sidebar-box{
+    background:var(--bg-panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    position:sticky;
+    top:76px;
+}
 
-#groupSelect option{
+.sidebar-box-header{
+    background:var(--bg-panel-header);
+    padding:12px 14px;
+    font-size:14px;
+    font-weight:bold;
+    border-bottom:1px solid var(--border);
+}
 
-    background:#232428;
+.sidebar-box-body{padding:16px;}
 
-    color:white;
+.admin-nombre{font-size:16px;margin-bottom:2px;}
+
+.admin-rol{
+    font-size:12px;
+    color:#8a8d94;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:14px;
+}
+
+.sidebar-box-body hr{
+    border:none;
+    border-top:1px solid var(--border);
+    margin:14px 0;
+}
+
+.sidebar-texto{
+    font-size:13px;
+    color:#b8bac0;
+    margin-bottom:8px;
+}
+
+.sidebar-lista{
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.sidebar-lista li{
+    font-size:13px;
+    color:#9a9ca3;
+    padding-left:14px;
+    position:relative;
+}
+
+.sidebar-lista li::before{
+    content:"•";
+    position:absolute;
+    left:0;
+    color:#54565e;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    .admin-layout{
+        grid-template-columns:1fr;
+    }
+
+    nav{display:none;}
 
 }
