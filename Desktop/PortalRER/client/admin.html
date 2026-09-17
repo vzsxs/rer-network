@@ -48,6 +48,14 @@
             Inicio
         </a>
 
+        <a href="foro.html">
+            Foro
+        </a>
+
+        <a href="foro.html?tab=miembros">
+            Miembros
+        </a>
+
         <a href="groups.html">
             Grupos
         </a>
@@ -59,11 +67,7 @@
 
         </a>
 
-        <a href="#">
-            Noticias
-        </a>
-
-        <a href="#">
+        <a href="perfil.html">
             Perfil
         </a>
 
@@ -161,6 +165,97 @@ sus miembros.
 
 </div>
 
+<br><br>
+
+<h2 class="titulo">
+
+Reglamento del grupo
+
+</h2>
+
+<div class="card">
+
+<p>
+
+Se edita el reglamento del grupo seleccionado arriba.
+
+</p>
+
+<textarea
+    id="reglamentoTextarea"
+    rows="8"
+    style="width:100%; margin-top:10px; background:#18191c; color:#fff; border:1px solid #34363c; border-radius:8px; padding:12px; font-family:inherit;"
+    placeholder="Selecciona un grupo para ver/editar su reglamento..."
+></textarea>
+
+<br><br>
+
+<button id="guardarReglamentoBtn">
+
+Guardar reglamento
+
+</button>
+
+<p id="reglamentoMensaje" style="margin-top:10px; font-size:13px;"></p>
+
+</div>
+
+<br><br>
+
+<h2 class="titulo">
+
+Anuncios del grupo
+
+</h2>
+
+<div class="card">
+
+<p>
+
+Publica un anuncio nuevo para el grupo seleccionado arriba.
+
+</p>
+
+<input
+    type="text"
+    id="anuncioTitulo"
+    placeholder="Título del anuncio"
+    style="width:100%; margin-top:10px; background:#18191c; color:#fff; border:1px solid #34363c; border-radius:8px; padding:10px;"
+>
+
+<br><br>
+
+<textarea
+    id="anuncioContenido"
+    rows="4"
+    style="width:100%; background:#18191c; color:#fff; border:1px solid #34363c; border-radius:8px; padding:12px; font-family:inherit;"
+    placeholder="Contenido del anuncio (opcional)..."
+></textarea>
+
+<br><br>
+
+<button id="publicarAnuncioBtn">
+
+Publicar anuncio
+
+</button>
+
+<p id="anuncioMensaje" style="margin-top:10px; font-size:13px;"></p>
+
+</div>
+
+<br><br>
+
+<div id="anunciosContainer" class="cards">
+
+<p>
+
+Selecciona un grupo para ver sus anuncios actuales.
+
+</p>
+
+</div>
+
 </section>
 
 <aside class="profile-card">
@@ -220,6 +315,18 @@ Ver miembros
 <li>
 
 Cambiar rangos
+
+</li>
+
+<li>
+
+Publicar anuncios
+
+</li>
+
+<li>
+
+Editar el reglamento
 
 </li>
 
