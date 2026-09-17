@@ -43,6 +43,19 @@
 
     <div class="perfil-card">
 
+        <div class="banner-container">
+
+            <img id="bannerImg" class="banner-img" src="" alt="Banner de perfil">
+
+            <div id="cambiarBannerBox" style="display:none;">
+                <input type="file" id="bannerInput" accept="image/png, image/jpeg, image/webp" hidden>
+                <label for="bannerInput" id="bannerInputLabel">🖼 Cambiar banner</label>
+            </div>
+
+        </div>
+
+        <div class="perfil-content">
+
         <div class="avatar-container">
 
             <img id="avatarImg" class="avatar-img" src="" alt="Foto de perfil">
@@ -63,7 +76,7 @@
 
             <div class="crop-modal-box">
 
-                <h3>Ajusta tu foto</h3>
+                <h3 id="cropModalTitle">Ajusta tu foto</h3>
                 <p class="crop-hint">Arrastra para mover, usa el control para hacer zoom.</p>
 
                 <div id="cropContainer" class="crop-container">
@@ -101,6 +114,8 @@
         </div>
 
         <p id="perfilMensaje"></p>
+
+        </div>
 
     </div>
 
