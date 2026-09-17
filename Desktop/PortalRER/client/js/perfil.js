@@ -49,6 +49,7 @@ async function cargarPerfil() {
         }
 
         document.getElementById("avatarImg").src = usuario.avatar_url || AVATAR_POR_DEFECTO;
+        document.getElementById("bannerImg").src = usuario.banner_url || "";
         document.getElementById("perfilNombre").textContent = usuario.nombre;
 
         const grupoRango = document.getElementById("perfilGrupoRango");
@@ -72,6 +73,7 @@ async function cargarPerfil() {
         if (esMiPropioPerfil) {
 
             document.getElementById("cambiarFotoBox").style.display = "block";
+            document.getElementById("cambiarBannerBox").style.display = "block";
             document.getElementById("editarDescripcionBox").style.display = "block";
             document.getElementById("descripcionView").style.display = "none";
 
@@ -91,14 +93,37 @@ async function cargarPerfil() {
 
 /* ==========================
    EDITOR DE RECORTE (arrastrar + zoom)
+   Genérico: sirve para el avatar (círculo) y el banner (rectángulo)
 ========================== */
 
-const TAMAÑO_CONTENEDOR = 260; // debe coincidir con .crop-container en el CSS
-const TAMAÑO_SALIDA = 256;     // tamaño final de la imagen subida
+const MODOS = {
+
+    avatar: {
+        contenedorAncho: 260,
+        contenedorAlto: 260,
+        salidaAncho: 256,
+        salidaAlto: 256,
+        titulo: "Ajusta tu foto",
+        formaCirculo: true
+    },
+
+    banner: {
+        contenedorAncho: 340,
+        contenedorAlto: 106,
+        salidaAncho: 960,
+        salidaAlto: 300,
+        titulo: "Ajusta tu banner",
+        formaCirculo: false
+    }
+
+};
+
+let modoActual = "avatar";
 
 const cropModal = document.getElementById("cropModal");
 const cropContainer = document.getElementById("cropContainer");
 const cropImage = document.getElementById("cropImage");
+const cropModalTitle = document.getElementById("cropModalTitle");
 const zoomSlider = document.getElementById("zoomSlider");
 
 let imgNaturalWidth = 0;
@@ -114,6 +139,11 @@ let inicioOffsetX = 0;
 let inicioOffsetY = 0;
 
 
+function config() {
+    return MODOS[modoActual];
+}
+
+
 function aplicarTransformImagen() {
 
     cropImage.style.width = (imgNaturalWidth * escalaActual) + "px";
@@ -126,11 +156,13 @@ function aplicarTransformImagen() {
 
 function limitarOffsets() {
 
+    const c = config();
+
     const anchoImg = imgNaturalWidth * escalaActual;
     const altoImg = imgNaturalHeight * escalaActual;
 
-    const minX = TAMAÑO_CONTENEDOR - anchoImg;
-    const minY = TAMAÑO_CONTENEDOR - altoImg;
+    const minX = c.contenedorAncho - anchoImg;
+    const minY = c.contenedorAlto - altoImg;
 
     offsetX = Math.min(0, Math.max(minX, offsetX));
     offsetY = Math.min(0, Math.max(minY, offsetY));
@@ -138,7 +170,17 @@ function limitarOffsets() {
 }
 
 
-function abrirEditorRecorte(file) {
+function abrirEditorRecorte(file, modo) {
+
+    modoActual = modo;
+
+    const c = config();
+
+    cropModalTitle.textContent = c.titulo;
+
+    cropContainer.style.width = c.contenedorAncho + "px";
+    cropContainer.style.height = c.contenedorAlto + "px";
+    cropContainer.style.borderRadius = c.formaCirculo ? "50%" : "10px";
 
     const url = URL.createObjectURL(file);
 
@@ -148,16 +190,16 @@ function abrirEditorRecorte(file) {
         imgNaturalHeight = cropImage.naturalHeight;
 
         minScale = Math.max(
-            TAMAÑO_CONTENEDOR / imgNaturalWidth,
-            TAMAÑO_CONTENEDOR / imgNaturalHeight
+            c.contenedorAncho / imgNaturalWidth,
+            c.contenedorAlto / imgNaturalHeight
         );
 
         escalaActual = minScale;
 
-        offsetX = (TAMAÑO_CONTENEDOR - imgNaturalWidth * escalaActual) / 2;
-        offsetY = (TAMAÑO_CONTENEDOR - imgNaturalHeight * escalaActual) / 2;
+        offsetX = (c.contenedorAncho - imgNaturalWidth * escalaActual) / 2;
+        offsetY = (c.contenedorAlto - imgNaturalHeight * escalaActual) / 2;
 
-        zoomSlider.value = 0; // 0 = sin zoom extra (mínimo que cubre el círculo)
+        zoomSlider.value = 0;
 
         aplicarTransformImagen();
 
@@ -174,19 +216,19 @@ function abrirEditorRecorte(file) {
 
 zoomSlider.addEventListener("input", () => {
 
-    const porcentaje = Number(zoomSlider.value) / 100; // 0 a 1
+    const c = config();
 
-    const nuevaEscala = minScale + porcentaje * (minScale * 2); // hasta 3x el mínimo
+    const porcentaje = Number(zoomSlider.value) / 100;
 
-    // Mantener el punto central del contenedor fijo al hacer zoom
+    const nuevaEscala = minScale + porcentaje * (minScale * 2);
 
-    const centroXImagen = (TAMAÑO_CONTENEDOR / 2 - offsetX) / escalaActual;
-    const centroYImagen = (TAMAÑO_CONTENEDOR / 2 - offsetY) / escalaActual;
+    const centroXImagen = (c.contenedorAncho / 2 - offsetX) / escalaActual;
+    const centroYImagen = (c.contenedorAlto / 2 - offsetY) / escalaActual;
 
     escalaActual = nuevaEscala;
 
-    offsetX = TAMAÑO_CONTENEDOR / 2 - centroXImagen * escalaActual;
-    offsetY = TAMAÑO_CONTENEDOR / 2 - centroYImagen * escalaActual;
+    offsetX = c.contenedorAncho / 2 - centroXImagen * escalaActual;
+    offsetY = c.contenedorAlto / 2 - centroYImagen * escalaActual;
 
     limitarOffsets();
     aplicarTransformImagen();
@@ -262,25 +304,25 @@ function generarBlobRecortado() {
 
     return new Promise((resolve) => {
 
+        const c = config();
+
         const canvas = document.getElementById("cropCanvas");
         const ctx = canvas.getContext("2d");
 
-        canvas.width = TAMAÑO_SALIDA;
-        canvas.height = TAMAÑO_SALIDA;
+        canvas.width = c.salidaAncho;
+        canvas.height = c.salidaAlto;
 
-        ctx.clearRect(0, 0, TAMAÑO_SALIDA, TAMAÑO_SALIDA);
-
-        // Mapeamos exactamente lo que se ve dentro del círculo (0,0)-(260,260)
-        // de vuelta a coordenadas de la imagen original
+        ctx.clearRect(0, 0, c.salidaAncho, c.salidaAlto);
 
         const sx = (0 - offsetX) / escalaActual;
         const sy = (0 - offsetY) / escalaActual;
-        const sSize = TAMAÑO_CONTENEDOR / escalaActual;
+        const sWidth = c.contenedorAncho / escalaActual;
+        const sHeight = c.contenedorAlto / escalaActual;
 
         ctx.drawImage(
             cropImage,
-            sx, sy, sSize, sSize,
-            0, 0, TAMAÑO_SALIDA, TAMAÑO_SALIDA
+            sx, sy, sWidth, sHeight,
+            0, 0, c.salidaAncho, c.salidaAlto
         );
 
         canvas.toBlob((blob) => resolve(blob), "image/png");
@@ -294,6 +336,7 @@ document.getElementById("cropCancelBtn").addEventListener("click", () => {
 
     cropModal.style.display = "none";
     document.getElementById("avatarInput").value = "";
+    document.getElementById("bannerInput").value = "";
 
 });
 
@@ -306,14 +349,19 @@ document.getElementById("cropConfirmBtn").addEventListener("click", async () => 
     confirmBtn.disabled = true;
     confirmBtn.textContent = "Subiendo...";
 
+    const esBanner = modoActual === "banner";
+
+    const endpoint = esBanner ? "/api/users/me/banner" : "/api/users/me/avatar";
+    const campo = esBanner ? "banner" : "avatar";
+
     try {
 
         const blob = await generarBlobRecortado();
 
         const formData = new FormData();
-        formData.append("avatar", blob, "avatar.png");
+        formData.append(campo, blob, `${campo}.png`);
 
-        const respuesta = await fetch("/api/users/me/avatar", {
+        const respuesta = await fetch(endpoint, {
 
             method: "POST",
 
@@ -329,16 +377,26 @@ document.getElementById("cropConfirmBtn").addEventListener("click", async () => 
 
         if (!respuesta.ok) {
 
-            mensaje.textContent = "❌ " + (datos.error || "No se pudo subir la foto.");
+            mensaje.textContent = "❌ " + (datos.error || "No se pudo subir la imagen.");
             return;
 
         }
 
-        document.getElementById("avatarImg").src = datos.avatar_url;
-        mensaje.textContent = "✅ Foto actualizada.";
+        if (esBanner) {
+
+            document.getElementById("bannerImg").src = datos.banner_url;
+            mensaje.textContent = "✅ Banner actualizado.";
+
+        } else {
+
+            document.getElementById("avatarImg").src = datos.avatar_url;
+            mensaje.textContent = "✅ Foto actualizada.";
+
+        }
 
         cropModal.style.display = "none";
         document.getElementById("avatarInput").value = "";
+        document.getElementById("bannerInput").value = "";
 
     } catch (error) {
 
@@ -359,7 +417,18 @@ document.getElementById("avatarInput")?.addEventListener("change", (e) => {
 
     if (e.target.files && e.target.files.length > 0) {
 
-        abrirEditorRecorte(e.target.files[0]);
+        abrirEditorRecorte(e.target.files[0], "avatar");
+
+    }
+
+});
+
+
+document.getElementById("bannerInput")?.addEventListener("change", (e) => {
+
+    if (e.target.files && e.target.files.length > 0) {
+
+        abrirEditorRecorte(e.target.files[0], "banner");
 
     }
 
