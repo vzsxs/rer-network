@@ -36,9 +36,8 @@ document
                 const reenviarBtn = document.createElement("button");
 
                 reenviarBtn.type = "button";
+                reenviarBtn.className = "btn-reenviar";
                 reenviarBtn.textContent = "Reenviar correo de verificación";
-                reenviarBtn.style.marginTop = "10px";
-                reenviarBtn.style.cursor = "pointer";
 
                 reenviarBtn.addEventListener("click", async () => {
 
