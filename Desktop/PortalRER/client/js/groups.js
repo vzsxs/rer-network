@@ -64,35 +64,40 @@ async function cargarGrupos() {
         }
 
 
-        totalGruposBadge.textContent = grupos.length;
+        if (totalGruposBadge) totalGruposBadge.textContent = grupos.length;
 
 
         // ================= SIDEBAR: GRUPOS RECIENTES =================
+        // (solo si el HTML tiene el contenedor; si no, se salta sin romper nada)
 
-        const recientes = [...grupos]
-            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-            .slice(0, 5);
+        if (gruposRecientesBox) {
 
-        gruposRecientesBox.innerHTML = "";
+            const recientes = [...grupos]
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+                .slice(0, 5);
 
-        recientes.forEach(grupo => {
+            gruposRecientesBox.innerHTML = "";
 
-            const item = document.createElement("div");
-            item.className = "grupo-reciente";
+            recientes.forEach(grupo => {
 
-            item.innerHTML = `
-                <img class="grupo-reciente-icono" src="${grupo.icono || AVATAR_POR_DEFECTO}">
-                <div class="grupo-reciente-texto">
-                    <h4>${grupo.nombre}</h4>
-                    <p>Grupo público · ${grupo.miembros} miembro${grupo.miembros === 1 ? "" : "s"}</p>
-                </div>
-            `;
+                const item = document.createElement("div");
+                item.className = "grupo-reciente";
 
-            item.addEventListener("click", () => entrarGrupo(grupo.slug));
+                item.innerHTML = `
+                    <img class="grupo-reciente-icono" src="${grupo.icono || AVATAR_POR_DEFECTO}">
+                    <div class="grupo-reciente-texto">
+                        <h4>${grupo.nombre}</h4>
+                        <p>Grupo público · ${grupo.miembros} miembro${grupo.miembros === 1 ? "" : "s"}</p>
+                    </div>
+                `;
 
-            gruposRecientesBox.appendChild(item);
+                item.addEventListener("click", () => entrarGrupo(grupo.slug));
 
-        });
+                gruposRecientesBox.appendChild(item);
+
+            });
+
+        }
 
 
         // ================= CARDS DE GRUPOS =================
