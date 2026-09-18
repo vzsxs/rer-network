@@ -20,6 +20,7 @@ function mostrar(vista, el){
     document.getElementById("vistaChat").style.display = vista === "chat" ? "block" : "none";
     document.getElementById("vistaMiembros").style.display = vista === "miembros" ? "block" : "none";
     document.getElementById("vistaVincular").style.display = "none";
+    document.getElementById("vistaJuego").style.display = "none";
 
     document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
 
@@ -35,7 +36,17 @@ function mostrarVincular(){
 
     document.getElementById("vistaChat").style.display = "none";
     document.getElementById("vistaMiembros").style.display = "none";
+    document.getElementById("vistaJuego").style.display = "none";
     document.getElementById("vistaVincular").style.display = "block";
+
+}
+
+function mostrarJuego(){
+
+    document.getElementById("vistaChat").style.display = "none";
+    document.getElementById("vistaMiembros").style.display = "none";
+    document.getElementById("vistaVincular").style.display = "none";
+    document.getElementById("vistaJuego").style.display = "block";
 
 }
 
