@@ -41,6 +41,7 @@
         <a href="foro.html">Foro</a>
         <a href="foro.html?tab=miembros">Miembros</a>
         <a href="groups.html">Grupos</a>
+        <a href="noticias.html">Noticias</a>
         <a href="admin.html" class="active">Solicitudes</a>
         <a href="perfil.html">Perfil</a>
 
@@ -137,6 +138,44 @@
 
             <div id="anunciosContainer" class="cards">
                 <p class="vacio">Selecciona un grupo para ver sus anuncios actuales.</p>
+            </div>
+
+            <h2 class="titulo">Canal de Noticias</h2>
+
+            <div class="panel">
+                <div class="panel-header">Publicar noticia</div>
+                <div class="panel-body">
+
+                    <input
+                        type="text"
+                        id="noticiaTitulo"
+                        class="input-field"
+                        placeholder="Título de la noticia"
+                    >
+
+                    <textarea
+                        id="noticiaContenido"
+                        rows="4"
+                        class="textarea-field"
+                        placeholder="Contenido (opcional)..."
+                    ></textarea>
+
+                    <input
+                        type="file"
+                        id="noticiaImagen"
+                        accept="image/png, image/jpeg, image/webp"
+                        class="input-field"
+                    >
+
+                    <button id="publicarNoticiaBtn" class="btn-primario">Publicar noticia</button>
+
+                    <p id="noticiaMensaje" class="mensaje-estado"></p>
+
+                </div>
+            </div>
+
+            <div id="noticiasAdminContainer" class="cards">
+                <p class="vacio">Cargando noticias...</p>
             </div>
 
         </div>
