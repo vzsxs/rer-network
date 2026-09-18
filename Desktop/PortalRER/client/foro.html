@@ -28,7 +28,7 @@
         <a href="#" id="navForo" onclick="mostrar('chat', this); return false;" class="active">Foro</a>
         <a href="#" id="navMiembros" onclick="mostrar('miembros', this); return false;">Miembros</a>
         <a href="groups.html">Grupos</a>
-        <a href="#">Noticias</a>
+        <a href="noticias.html">Noticias</a>
         <a href="perfil.html">Perfil</a>
     </nav>
 </header>
@@ -60,7 +60,7 @@
                     <p>Aquí puedes vincular tu Roblox, encontrar el link del juego, etc.</p>
                 </div>
 
-                <a class="info-row" href="https://discord.gg" target="_blank">
+                <a class="info-row" href="https://discord.gg/TU_INVITE_AQUI" target="_blank">
                     <div class="info-icon">💬</div>
                     <div class="info-row-texto">
                         <h3>Discord</h3>
@@ -76,13 +76,13 @@
                     </div>
                 </div>
 
-                <a class="info-row" href="https://www.roblox.com" target="_blank">
+                <div class="info-row" onclick="mostrarJuego()">
                     <div class="info-icon">🕹️</div>
                     <div class="info-row-texto">
                         <h3>Link del juego</h3>
                         <p>Entra directo al servidor de Roblox de Portal RER.</p>
                     </div>
-                </a>
+                </div>
 
             </div>
 
@@ -124,6 +124,44 @@
                 </div>
 
             </div>
+
+        </div>
+
+        <div id="vistaJuego" style="display:none;">
+
+            <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Enlace del juego</strong></div>
+
+            <div class="vincular-header">
+                <h1>Enlace del juego</h1>
+                <p>Aquí puedes encontrar el enlace actualizado del juego y lanzarte directamente a él.</p>
+            </div>
+
+            <div class="juego-card">
+
+                <div class="juego-portada">
+                    <img src="images/juego-portada.jpg" alt="Portada del juego" onerror="this.style.display='none'">
+                </div>
+
+                <div class="juego-info">
+
+                    <h2>Hamburgo, 1934</h2>
+
+                    <p class="juego-autor">Por <strong>@admin</strong></p>
+
+                    <p class="juego-madurez">Madurez: Moderada · Edades 13+</p>
+
+                    <a href="https://www.roblox.com/games/TU_GAME_ID" target="_blank" class="juego-play-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                            <rect x="4" y="4" width="16" height="16" rx="3" transform="rotate(45 12 12)"/>
+                        </svg>
+                        Jugar
+                    </a>
+
+                </div>
+
+            </div>
+
+            <a href="#" onclick="ocultarVincular(); return false;" style="color:#8a8d94; font-size:13px; display:inline-block; margin-top:16px;">← Volver</a>
 
         </div>
 
