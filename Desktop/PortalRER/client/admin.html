@@ -1,127 +1,216 @@
-*{margin:0;padding:0;box-sizing:border-box;}
+<!DOCTYPE html>
+<html lang="es">
 
-body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
+<head>
 
-:root{
-    --accent:#3a3b40;
-    --accent-soft:#2c2d32;
-    --bg-panel:#1f2024;
-    --bg-panel-header:#26272c;
-    --border:#33343a;
-}
+    <meta charset="UTF-8">
 
-/* ================= NAVBAR ================= */
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-.navbar{
-    width:100%;
-    height:56px;
-    background:#1a1b1f;
-    display:flex;
-    align-items:center;
-    padding:0 24px;
-    border-bottom:1px solid var(--border);
-    gap:32px;
-    position:sticky;
-    top:0;
-    z-index:1000;
-}
+    <title>
+        Administración - Portal RER
+    </title>
 
-.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:white;}
+    <link rel="icon" href="/favicon.ico">
 
-nav{display:flex;gap:8px;flex:1;}
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-nav a{
-    color:#a8aab0;
-    text-decoration:none;
-    font-size:14px;
-    padding:8px 16px;
-    border-radius:4px;
-    transition:.2s;
-}
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-nav a:hover{color:#fff;background:#26272c;}
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap"
+          rel="stylesheet">
 
-nav a.active{
-    color:#fff;
-    background:var(--accent-soft);
-    box-shadow:inset 0 0 0 1px #45464c;
-}
+    <link rel="stylesheet"
+          href="css/admin.css">
 
-/* ================= HEADER PÁGINA ================= */
+</head>
 
-.breadcrumb{
-    max-width:800px;
-    margin:20px auto 0;
-    padding:0 20px;
-    color:#7a7d84;
-    font-size:13px;
-}
+<body>
 
-.breadcrumb strong{color:#dcdcdc;}
+<header class="navbar">
 
-.titulo-pagina{
-    max-width:800px;
-    margin:8px auto 20px;
-    padding:0 20px;
-    font-size:26px;
-}
+    <div class="logo">Portal RER</div>
 
-/* ================= LISTA DE NOTICIAS ================= */
+    <nav>
 
-.noticias-wrapper{
-    max-width:800px;
-    margin:0 auto 40px;
-    padding:0 20px;
-}
+        <a href="dashboard.html">Inicio</a>
+        <a href="foro.html">Foro</a>
+        <a href="foro.html?tab=miembros">Miembros</a>
+        <a href="groups.html">Grupos</a>
+        <a href="noticias.html">Noticias</a>
+        <a href="admin.html" class="active">Solicitudes</a>
+        <a href="perfil.html">Perfil</a>
 
-.noticias-lista{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
-}
+    </nav>
 
-.noticia-card{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    overflow:hidden;
-}
+    <div class="profile-mini">
+        <span id="nombreMini">Administrador</span>
+        <button id="logoutBtn" class="logout-mini-btn">Cerrar sesión</button>
+    </div>
 
-.noticia-imagen{
-    width:100%;
-    max-height:320px;
-    object-fit:cover;
-    display:block;
-}
+</header>
 
-.noticia-body{padding:20px;}
+<div class="hero">
+    <div class="hero-text">
+        <h1>Panel de Administración</h1>
+        <p>Gestiona solicitudes, miembros, rangos, reglamentos y anuncios de todas las organizaciones.</p>
+    </div>
+</div>
 
-.noticia-titulo{
-    font-size:18px;
-    margin-bottom:4px;
-}
+<div class="container">
 
-.noticia-meta{
-    font-size:12px;
-    color:#7a7d84;
-    margin-bottom:12px;
-}
+    <div class="admin-layout">
 
-.noticia-contenido{
-    font-size:14px;
-    color:#dcdcdc;
-    line-height:1.6;
-    white-space:pre-wrap;
-}
+        <!-- COLUMNA PRINCIPAL -->
+        <div>
 
-.vacio{
-    color:#7a7d84;
-    font-style:italic;
-    font-size:13px;
-    text-align:center;
-    padding:40px 0;
-}
+            <h2 class="titulo">Solicitudes pendientes</h2>
 
-@media(max-width:700px){
-    nav{display:none;}
-}
+            <div id="requestsContainer" class="cards">
+                Cargando solicitudes...
+            </div>
+
+            <h2 class="titulo">Administrar grupo</h2>
+
+            <div class="panel">
+                <div class="panel-header">Selecciona un grupo</div>
+                <div class="panel-body">
+                    <select id="groupSelect" class="input-field">
+                        <option value="">Selecciona un grupo</option>
+                    </select>
+                </div>
+            </div>
+
+            <h3 class="subtitulo">Miembros y rangos</h3>
+
+            <div id="membersContainer" class="cards">
+                <p class="vacio">Selecciona un grupo para cargar sus miembros.</p>
+            </div>
+
+            <h3 class="subtitulo">Reglamento del grupo</h3>
+
+            <div class="panel">
+                <div class="panel-body">
+
+                    <textarea
+                        id="reglamentoTextarea"
+                        rows="8"
+                        class="textarea-field"
+                        placeholder="Selecciona un grupo para ver/editar su reglamento..."
+                    ></textarea>
+
+                    <button id="guardarReglamentoBtn" class="btn-primario">Guardar reglamento</button>
+
+                    <p id="reglamentoMensaje" class="mensaje-estado"></p>
+
+                </div>
+            </div>
+
+            <h3 class="subtitulo">Anuncios del grupo</h3>
+
+            <div class="panel">
+                <div class="panel-body">
+
+                    <input
+                        type="text"
+                        id="anuncioTitulo"
+                        class="input-field"
+                        placeholder="Título del anuncio"
+                    >
+
+                    <textarea
+                        id="anuncioContenido"
+                        rows="4"
+                        class="textarea-field"
+                        placeholder="Contenido del anuncio (opcional)..."
+                    ></textarea>
+
+                    <button id="publicarAnuncioBtn" class="btn-primario">Publicar anuncio</button>
+
+                    <p id="anuncioMensaje" class="mensaje-estado"></p>
+
+                </div>
+            </div>
+
+            <div id="anunciosContainer" class="cards">
+                <p class="vacio">Selecciona un grupo para ver sus anuncios actuales.</p>
+            </div>
+
+            <h2 class="titulo">Canal de Noticias</h2>
+
+            <div class="panel">
+                <div class="panel-header">Publicar noticia</div>
+                <div class="panel-body">
+
+                    <input
+                        type="text"
+                        id="noticiaTitulo"
+                        class="input-field"
+                        placeholder="Título de la noticia"
+                    >
+
+                    <textarea
+                        id="noticiaContenido"
+                        rows="4"
+                        class="textarea-field"
+                        placeholder="Contenido (opcional)..."
+                    ></textarea>
+
+                    <input
+                        type="file"
+                        id="noticiaImagen"
+                        accept="image/png, image/jpeg, image/webp"
+                        class="input-field"
+                    >
+
+                    <button id="publicarNoticiaBtn" class="btn-primario">Publicar noticia</button>
+
+                    <p id="noticiaMensaje" class="mensaje-estado"></p>
+
+                </div>
+            </div>
+
+            <div id="noticiasAdminContainer" class="cards">
+                <p class="vacio">Cargando noticias...</p>
+            </div>
+
+        </div>
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar-box">
+
+            <div class="sidebar-box-header">Administrador</div>
+
+            <div class="sidebar-box-body">
+
+                <h3 id="nombreUsuario" class="admin-nombre">Cargando...</h3>
+                <p id="rolUsuario" class="admin-rol">Administrador</p>
+
+                <hr>
+
+                <p class="sidebar-texto">Desde este panel puedes:</p>
+
+                <ul class="sidebar-lista">
+                    <li>Aceptar / rechazar solicitudes</li>
+                    <li>Ver miembros y cambiar rangos</li>
+                    <li>Publicar anuncios</li>
+                    <li>Editar el reglamento</li>
+                </ul>
+
+            </div>
+
+        </aside>
+
+    </div>
+
+</div>
+
+<script src="js/admin.js"></script>
+
+</body>
+
+</html>
