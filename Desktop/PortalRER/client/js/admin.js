@@ -562,6 +562,152 @@ async function borrarAnuncio(id, groupId) {
 
 
 // ===========================
+// CANAL DE NOTICIAS
+// ===========================
+
+async function cargarNoticiasAdmin() {
+
+    const contenedor = document.getElementById("noticiasAdminContainer");
+
+    if (!contenedor) return;
+
+    try {
+
+        const respuesta = await fetch("/api/news");
+        const noticias = await respuesta.json();
+
+        if (!Array.isArray(noticias) || noticias.length === 0) {
+
+            contenedor.innerHTML = `<div class="request-card"><p class="vacio">No hay noticias publicadas todavía.</p></div>`;
+            return;
+
+        }
+
+        contenedor.innerHTML = "";
+
+        noticias.forEach(n => {
+
+            contenedor.innerHTML += `
+            <div class="request-card">
+                ${n.imagen_url ? `<img src="${n.imagen_url}" style="width:100%; border-radius:6px; margin-bottom:8px;">` : ""}
+                <h2>${n.titulo}</h2>
+                <p>${n.contenido || ""}</p>
+                <button class="deny" onclick="borrarNoticia('${n.id}')">Eliminar</button>
+            </div>
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        contenedor.innerHTML = `<div class="request-card">Error cargando noticias.</div>`;
+
+    }
+
+}
+
+
+async function publicarNoticia() {
+
+    const titulo = document.getElementById("noticiaTitulo");
+    const contenido = document.getElementById("noticiaContenido");
+    const imagen = document.getElementById("noticiaImagen");
+    const mensaje = document.getElementById("noticiaMensaje");
+    const btn = document.getElementById("publicarNoticiaBtn");
+
+    if (!titulo.value.trim()) {
+
+        mensaje.style.color = "#f28b82";
+        mensaje.textContent = "❌ La noticia necesita un título.";
+        return;
+
+    }
+
+    btn.disabled = true;
+    btn.textContent = "Publicando...";
+
+    try {
+
+        const formData = new FormData();
+        formData.append("titulo", titulo.value);
+        formData.append("contenido", contenido.value);
+
+        if (imagen.files && imagen.files.length > 0) {
+            formData.append("imagen", imagen.files[0]);
+        }
+
+        const respuesta = await fetch("/api/news", {
+
+            method: "POST",
+
+            headers: authHeaders(),
+
+            body: formData
+
+        });
+
+        const data = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(data.error || "Error publicando la noticia");
+        }
+
+        mensaje.style.color = "#8fd39a";
+        mensaje.textContent = "✅ Noticia publicada.";
+
+        titulo.value = "";
+        contenido.value = "";
+        imagen.value = "";
+
+        cargarNoticiasAdmin();
+
+    } catch (error) {
+
+        console.error(error);
+        mensaje.style.color = "#f28b82";
+        mensaje.textContent = "❌ " + error.message;
+
+    } finally {
+
+        btn.disabled = false;
+        btn.textContent = "Publicar noticia";
+
+    }
+
+}
+
+
+async function borrarNoticia(id) {
+
+    if (!confirm("¿Eliminar esta noticia?")) return;
+
+    try {
+
+        const respuesta = await fetch(`/api/news/${id}`, {
+            method: "DELETE",
+            headers: authHeaders()
+        });
+
+        const data = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(data.error || "Error eliminando la noticia");
+        }
+
+        cargarNoticiasAdmin();
+
+    } catch (error) {
+
+        console.error(error);
+        alert(error.message);
+
+    }
+
+}
+
+
+// ===========================
 // CERRAR SESIÓN
 // ===========================
 
@@ -592,11 +738,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cargarSolicitudes();
     cargarGrupos();
+    cargarNoticiasAdmin();
 
     const btnGuardarReglamento = document.getElementById("guardarReglamentoBtn");
     if (btnGuardarReglamento) btnGuardarReglamento.addEventListener("click", guardarReglamento);
 
     const btnPublicarAnuncio = document.getElementById("publicarAnuncioBtn");
     if (btnPublicarAnuncio) btnPublicarAnuncio.addEventListener("click", publicarAnuncio);
+
+    const btnPublicarNoticia = document.getElementById("publicarNoticiaBtn");
+    if (btnPublicarNoticia) btnPublicarNoticia.addEventListener("click", publicarNoticia);
 
 });
