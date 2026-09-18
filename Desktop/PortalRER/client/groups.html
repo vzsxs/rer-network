@@ -3,65 +3,74 @@
 
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-<title>Grupos - Portal RER</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="icon" href="/favicon.ico">
+    <title>Portal RER - Grupos</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="/favicon.ico">
 
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="stylesheet" href="css/groups.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/groups.css">
 
 </head>
 
 <body>
 
 <header class="navbar">
-    <div class="logo">Portal RER</div>
-    <nav>
-        <a href="dashboard.html">Inicio</a>
-        <a href="foro.html">Foro</a>
-        <a href="foro.html?tab=miembros">Miembros</a>
-        <a href="groups.html" class="active">Grupos</a>
-        <a href="perfil.html">Perfil</a>
-    </nav>
-</header>
 
-<div class="breadcrumb"><strong>Inicio</strong> › Grupos</div>
-<h1 class="titulo-pagina">Organizaciones</h1>
+    <div class="logo">
 
-<div class="layout">
-
-    <div>
-
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">
-                Categorías
-            </div>
-            <div class="sidebar-box-body">
-                <a href="#" class="sidebar-link">Todas las organizaciones <span class="badge" id="totalGrupos">—</span></a>
-            </div>
-        </div>
-
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">Grupos recientes</div>
-            <div class="sidebar-box-body" id="gruposRecientes">
-                <p style="padding:14px;font-size:12px;color:#7a7d84;">Cargando...</p>
-            </div>
-        </div>
+        Portal RER
 
     </div>
 
-    <div>
+    <nav>
 
-        <div id="groupsContainer" class="groups-grid">
-            <p style="color:#7a7d84;">Cargando grupos...</p>
-        </div>
+        <a href="dashboard.html">Inicio</a>
+
+        <a href="foro.html">Foro</a>
+
+        <a href="foro.html?tab=miembros">Miembros</a>
+
+        <a href="groups.html" class="active">Grupos</a>
+
+        <a href="noticias.html">Noticias</a>
+        <a href="perfil.html">Perfil</a>
+
+    </nav>
+
+    <div class="profile-mini">
+
+        <span id="nombreUsuario"></span>
+
+    </div>
+
+</header>
+
+
+
+<div class="container">
+
+    <h1>
+
+        Organizaciones
+
+    </h1>
+
+    <p class="subtitle">
+
+        Selecciona una organización para ingresar a su portal.
+
+    </p>
+
+    <div id="groupsContainer" class="groups-grid">
 
     </div>
 
@@ -70,4 +79,5 @@
 <script src="js/groups.js"></script>
 
 </body>
+
 </html>
