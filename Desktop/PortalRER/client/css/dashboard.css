@@ -71,6 +71,17 @@ nav a.active{
     color:#fff;
 }
 
+/* ================= DISCLAIMER ================= */
+
+.disclaimer{
+    background:var(--bg-panel);
+    border-bottom:1px solid var(--border);
+    padding:10px 24px;
+    font-size:13px;
+    color:#9a9ca3;
+    text-align:center;
+}
+
 /* ================= HERO ================= */
 
 .hero{
