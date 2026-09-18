@@ -294,6 +294,10 @@ nav a.active{
     margin-bottom:10px;
 }
 
+.fuente-roblox{
+    font-family:"Montserrat", Arial, sans-serif;
+}
+
 .juego-autor{
     font-size:14px;
     color:#dcdcdc;
