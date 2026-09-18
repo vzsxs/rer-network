@@ -1,115 +1,169 @@
-<!DOCTYPE html>
-<html lang="es">
+require("dotenv").config();
 
-<head>
+const express = require("express");
+const cors = require("cors");
+const path = require("path");
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+const supabase = require("./config/supabase");
 
-<title>Dashboard - Portal RER</title>
+// ===========================
+// RUTAS
+// ===========================
 
-<link rel="icon" href="/favicon.ico">
+const authRoutes = require("./routes/auth");
+const groupsRoutes = require("./routes/groups");
+const requestsRoutes = require("./routes/requests");
+const adminRoutes = require("./routes/admin");
+const robloxRoutes = require("./routes/roblox");
+const usersRoutes = require("./routes/users");
+const chatRoutes = require("./routes/chat");
+const newsRoutes = require("./routes/news");
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+const app = express();
 
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+/* ===========================
+   MIDDLEWARES
+=========================== */
 
-<link rel="stylesheet" href="css/dashboard.css">
+app.use(cors());
 
-</head>
+app.use(express.json());
 
-<body>
+app.use(express.urlencoded({
+    extended: true
+}));
 
-<header class="navbar">
+app.use(express.static(
+    path.join(__dirname, "../client")
+));
 
-    <div class="logo">Portal RER</div>
+/* ===========================
+   PAGINA PRINCIPAL
+=========================== */
 
-    <nav>
+app.get("/", (req, res) => {
 
-        <a href="dashboard.html" class="active">Inicio</a>
-        <a href="foro.html">Foro</a>
-        <a href="foro.html?tab=miembros">Miembros</a>
-        <a href="groups.html">Grupos</a>
+    res.sendFile(
+        path.join(__dirname, "../client/index.html")
+    );
 
-        <a
-            href="admin.html"
-            id="adminLink"
-            style="display:none;"
-        >
-            Solicitudes
-        </a>
+});
 
-        <a href="noticias.html">Noticias</a>
-        <a href="perfil.html">Perfil</a>
+/* ===========================
+   TEST SUPABASE
+=========================== */
 
-    </nav>
+app.get("/test-db", async (req, res) => {
 
-    <div class="profile-mini">
-        <span id="nombreMini">Usuario</span>
-        <button id="logoutBtn" class="logout-mini-btn">Cerrar sesión</button>
-    </div>
+    try {
 
-</header>
+        const { data, error } = await supabase
+            .from("users")
+            .select("*");
 
-<div class="hero">
+        if (error) {
 
-    <div class="hero-text">
-        <h1>Bienvenido al Portal RER</h1>
-        <p>Plataforma de gestión y organizaciones</p>
-    </div>
+            return res.status(500).json({
+                error: error.message
+            });
 
-</div>
+        }
 
-<div class="container">
+        res.json(data);
 
-    <h2 class="titulo">Panel principal</h2>
+    } catch (error) {
 
-    <div class="cards-grid">
+        res.status(500).json({
+            error: error.message
+        });
 
-        <div class="panel">
-            <div class="panel-header">🛡 Grupos</div>
-            <div class="panel-body">
-                <p>Explora organizaciones disponibles y solicita ingreso.</p>
-                <a href="groups.html" class="panel-link">Ver grupos →</a>
-            </div>
-        </div>
+    }
 
-        <div class="panel">
-            <div class="panel-header">💬 Foro</div>
-            <div class="panel-body">
-                <p>Chatea con la comunidad y consulta información importante.</p>
-                <a href="foro.html" class="panel-link">Ir al foro →</a>
-            </div>
-        </div>
+});
 
-        <div class="panel">
-            <div class="panel-header">📢 Noticias</div>
-            <div class="panel-body">
-                <p>Revisa comunicados oficiales del portal.</p>
-            </div>
-        </div>
+/* ===========================
+   API ROUTES
+=========================== */
 
-        <div class="panel">
-            <div class="panel-header">📂 Documentos</div>
-            <div class="panel-body">
-                <p>Archivos y reglamentos importantes.</p>
-            </div>
-        </div>
+app.use(
+    "/api/auth",
+    authRoutes
+);
 
-        <div class="panel">
-            <div class="panel-header">👥 Miembros</div>
-            <div class="panel-body">
-                <p>Consulta el personal registrado en el portal.</p>
-                <a href="foro.html?tab=miembros" class="panel-link">Ver miembros →</a>
-            </div>
-        </div>
+app.use(
+    "/api/groups",
+    groupsRoutes
+);
 
-    </div>
+app.use(
+    "/api/requests",
+    requestsRoutes
+);
 
-</div>
+app.use(
+    "/api/admin",
+    adminRoutes
+);
 
-<script src="js/dashboard.js"></script>
+app.use(
+    "/api/roblox",
+    robloxRoutes
+);
 
-</body>
-</html>
+app.use(
+    "/api/users",
+    usersRoutes
+);
+
+app.use(
+    "/api/chat",
+    chatRoutes
+);
+
+app.use(
+    "/api/news",
+    newsRoutes
+);
+
+/* ===========================
+   ERROR 404
+=========================== */
+
+app.use((req, res) => {
+
+    if (req.originalUrl.startsWith("/api/")) {
+
+        return res.status(404).json({
+            error: "Ruta API no encontrada"
+        });
+
+    }
+
+    res.status(404).sendFile(
+
+        path.join(
+            __dirname,
+            "../client/index.html"
+        )
+
+    );
+
+});
+
+/* ===========================
+   SERVIDOR
+=========================== */
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+
+    console.log("--------------------------------");
+
+    console.log("🚀 Portal RER iniciado");
+
+    console.log(`🌐 Puerto: ${PORT}`);
+
+    console.log("--------------------------------");
+
+});
