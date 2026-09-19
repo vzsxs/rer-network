@@ -38,7 +38,6 @@ router.post("/link", verifyToken, async (req, res) => {
             return res.status(400).json({ error: "El enlace no es válido." });
         }
 
-        // Confirmamos que el ID existe en Roblox y sacamos el nombre real
         let robloxName;
 
         try {
@@ -55,7 +54,6 @@ router.post("/link", verifyToken, async (req, res) => {
 
         }
 
-        // ¿Ya existe una vinculación previa de este usuario?
         const { data: existente, error: buscarError } = await supabase
             .from("roblox_verifications")
             .select("id")
@@ -72,6 +70,7 @@ router.post("/link", verifyToken, async (req, res) => {
                 .from("roblox_verifications")
                 .update({
                     roblox_id: robloxId,
+                    roblox_username: robloxName,
                     verified: true
                 })
                 .eq("id", existente.id);
@@ -87,6 +86,7 @@ router.post("/link", verifyToken, async (req, res) => {
                 .insert([{
                     user_id: req.userId,
                     roblox_id: robloxId,
+                    roblox_username: robloxName,
                     verified: true
                 }]);
 
@@ -109,9 +109,18 @@ router.post("/link", verifyToken, async (req, res) => {
 
 /* ==========================
    GET /api/roblox/profile/:robloxId
-   Esto lo consulta tu script de Roblox.
-   Debe responder EXACTAMENTE { profile: { roleTag } }
-   porque tu script lee "apiData.profile.roleTag"
+   La consultan AMBOS scripts de Roblox (el de uniformes y el de la etiqueta).
+   Formato de respuesta pensado para servir a los dos a la vez:
+
+   {
+       ok: true,
+       profile: {
+           roleTag: "Soldado",
+           discordName: "Juan",
+           robloxUsername: "juanito123",
+           robloxUserId: "123456789"
+       }
+   }
 ========================== */
 
 router.get("/profile/:robloxId", async (req, res) => {
@@ -120,23 +129,31 @@ router.get("/profile/:robloxId", async (req, res) => {
 
         const { robloxId } = req.params;
 
-        // 1. Buscar la verificación vinculada a este Roblox ID
         const { data: verification, error: verErr } = await supabase
             .from("roblox_verifications")
-            .select("user_id")
+            .select("user_id, roblox_username")
             .eq("roblox_id", robloxId)
             .eq("verified", true)
             .maybeSingle();
 
         if (verErr) {
-            return res.status(500).json({ error: verErr.message });
+            return res.status(500).json({ ok: false, error: verErr.message });
         }
 
         if (!verification) {
-            return res.status(404).json({ error: "Cuenta no vinculada." });
+            return res.status(404).json({ ok: false, error: "Cuenta no vinculada." });
         }
 
-        // 2. Traer el grupo/rango de ese usuario (solo puede tener uno)
+        const { data: usuario, error: usuarioError } = await supabase
+            .from("users")
+            .select("nombre")
+            .eq("id", verification.user_id)
+            .maybeSingle();
+
+        if (usuarioError) {
+            return res.status(500).json({ ok: false, error: usuarioError.message });
+        }
+
         const { data: membership, error: memErr } = await supabase
             .from("group_members")
             .select("rango")
@@ -144,23 +161,30 @@ router.get("/profile/:robloxId", async (req, res) => {
             .maybeSingle();
 
         if (memErr) {
-            return res.status(500).json({ error: memErr.message });
+            return res.status(500).json({ ok: false, error: memErr.message });
         }
 
         if (!membership) {
-            return res.status(404).json({ error: "Sin grupo/rango asignado." });
+            return res.status(404).json({ ok: false, error: "Sin grupo/rango asignado." });
         }
 
         res.json({
+
+            ok: true,
+
             profile: {
-                roleTag: membership.rango
+                roleTag: membership.rango,
+                discordName: usuario ? usuario.nombre : "Desconocido",
+                robloxUsername: verification.roblox_username || "",
+                robloxUserId: robloxId
             }
+
         });
 
     } catch (error) {
 
         console.error(error);
-        res.status(500).json({ error: "Error del servidor." });
+        res.status(500).json({ ok: false, error: "Error del servidor." });
 
     }
 
