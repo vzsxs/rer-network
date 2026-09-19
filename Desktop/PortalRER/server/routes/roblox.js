@@ -156,7 +156,12 @@ router.get("/profile/:robloxId", async (req, res) => {
 
         const { data: membership, error: memErr } = await supabase
             .from("group_members")
-            .select("rango")
+            .select(`
+                rango,
+                groups (
+                    nombre
+                )
+            `)
             .eq("user_id", verification.user_id)
             .maybeSingle();
 
@@ -174,6 +179,7 @@ router.get("/profile/:robloxId", async (req, res) => {
 
             profile: {
                 roleTag: membership.rango,
+                grupo: membership.groups ? membership.groups.nombre : null,
                 discordName: usuario ? usuario.nombre : "Desconocido",
                 robloxUsername: verification.roblox_username || "",
                 robloxUserId: robloxId
