@@ -21,6 +21,8 @@ const newsRoutes = require("./routes/news");
 
 const app = express();
 
+app.set("trust proxy", 1);
+
 /* ===========================
    MIDDLEWARES
 =========================== */
