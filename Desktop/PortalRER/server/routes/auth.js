@@ -3,11 +3,46 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const rateLimit = require("express-rate-limit");
+const axios = require("axios");
 
 const supabase = require("../config/supabase");
 const { enviarCorreoVerificacion } = require("../utils/mailer");
 
 const router = express.Router();
+
+
+/* ==========================
+   VERIFICAR CAPTCHA CON hCaptcha
+========================== */
+
+async function verificarCaptcha(token, ip) {
+
+    if (!token) {
+        return false;
+    }
+
+    try {
+
+        const params = new URLSearchParams();
+        params.append("secret", process.env.HCAPTCHA_SECRET);
+        params.append("response", token);
+        if (ip) params.append("remoteip", ip);
+
+        const { data } = await axios.post(
+            "https://hcaptcha.com/siteverify",
+            params
+        );
+
+        return data.success === true;
+
+    } catch (error) {
+
+        console.error("❌ Error verificando hCaptcha:", error.message);
+        return false;
+
+    }
+
+}
 
 
 /* ==========================
@@ -54,13 +89,24 @@ router.post("/register", limitarRegistro, async (req, res) => {
             nombre,
             email,
             password,
-            invite_code
+            invite_code,
+            hcaptchaToken
         } = req.body;
 
         if (!nombre || !email || !password || !invite_code) {
 
             return res.status(400).json({
                 error: "Todos los campos son obligatorios"
+            });
+
+        }
+
+        const captchaValido = await verificarCaptcha(hcaptchaToken, req.ip);
+
+        if (!captchaValido) {
+
+            return res.status(400).json({
+                error: "Captcha inválido o expirado. Inténtalo de nuevo."
             });
 
         }
