@@ -16,6 +16,9 @@
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/register.css">
+    <link rel="stylesheet" href="css/idioma-switch.css">
+
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 
 </head>
 
@@ -23,11 +26,15 @@
 
 <header class="navbar">
     <div class="logo">Portal RER</div>
+    <div class="idioma-switch" style="margin-left:auto; margin-right:0;">
+        <button id="idiomaEs" class="idioma-btn" onclick="cambiarIdioma('es')">ES</button>
+        <button id="idiomaEn" class="idioma-btn" onclick="cambiarIdioma('en')">EN</button>
+    </div>
 </header>
 
 <div class="breadcrumb"><a href="index.html">Inicio</a></div>
 
-<h1 class="titulo-pagina">Registro</h1>
+<h1 class="titulo-pagina" data-i18n="registro_titulo">Registro</h1>
 
 <div class="form-wrapper">
 
@@ -35,18 +42,18 @@
 
         <div class="form-row">
             <div class="form-label">
-                <label>Nombre de usuario:</label>
-                <span class="requerido">Obligatorio</span>
+                <label data-i18n="registro_label_nombre">Nombre de usuario:</label>
+                <span class="requerido" data-i18n="registro_requerido">Obligatorio</span>
             </div>
             <div class="form-input">
-                <input type="text" id="nombre" placeholder="Ej: Georg Ulrich (NOMBRE DE ROL)" required>
+                <input type="text" id="nombre" placeholder="Ej: Juan" required>
             </div>
         </div>
 
         <div class="form-row">
             <div class="form-label">
-                <label>Correo electrónico:</label>
-                <span class="requerido">Obligatorio</span>
+                <label data-i18n="registro_label_email">Correo electrónico:</label>
+                <span class="requerido" data-i18n="registro_requerido">Obligatorio</span>
             </div>
             <div class="form-input">
                 <input type="email" id="email" placeholder="correo@ejemplo.com" required>
@@ -55,8 +62,8 @@
 
         <div class="form-row">
             <div class="form-label">
-                <label>Contraseña:</label>
-                <span class="requerido">Obligatorio</span>
+                <label data-i18n="registro_label_password">Contraseña:</label>
+                <span class="requerido" data-i18n="registro_requerido">Obligatorio</span>
             </div>
             <div class="form-input">
                 <input type="password" id="password" required>
@@ -65,8 +72,8 @@
 
         <div class="form-row">
             <div class="form-label">
-                <label>Confirmar contraseña:</label>
-                <span class="requerido">Obligatorio</span>
+                <label data-i18n="registro_label_confirmar">Confirmar contraseña:</label>
+                <span class="requerido" data-i18n="registro_requerido">Obligatorio</span>
             </div>
             <div class="form-input">
                 <input type="password" id="confirmPassword" required>
@@ -75,20 +82,30 @@
 
         <div class="form-row">
             <div class="form-label">
-                <label>Código de invitación:</label>
-                <span class="requerido">Obligatorio</span>
+                <label data-i18n="registro_label_invite">Código de invitación:</label>
+                <span class="requerido" data-i18n="registro_requerido">Obligatorio</span>
             </div>
             <div class="form-input">
                 <input type="text" id="inviteCode" placeholder="RER2026" required>
             </div>
         </div>
 
+        <div class="form-row">
+            <div class="form-label"></div>
+            <div class="form-input">
+
+                <!-- 🔑 Reemplaza TU_SITE_KEY_AQUI por tu Site Key real de hCaptcha -->
+                <div class="h-captcha" data-sitekey="TU_SITE_KEY_AQUI"></div>
+
+            </div>
+        </div>
+
         <div class="form-row form-row-final">
             <div class="form-label"></div>
             <div class="form-input">
-                <button type="submit" class="btn-registrar">Registrarse</button>
+                <button type="submit" class="btn-registrar" data-i18n="registro_btn">Registrarse</button>
                 <p id="mensaje"></p>
-                <a href="login.html" class="link-login">← Ya tengo una cuenta</a>
+                <a href="login.html" class="link-login" data-i18n="registro_link_login">← Ya tengo una cuenta</a>
             </div>
         </div>
 
@@ -96,6 +113,7 @@
 
 </div>
 
+<script src="js/i18n.js"></script>
 <script src="js/register.js"></script>
 
 </body>
