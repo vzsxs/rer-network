@@ -4,141 +4,84 @@ document
 
     e.preventDefault();
 
-    const nombre = document
-        .getElementById("nombre")
-        .value
-        .trim();
+    const nombre = document.getElementById("nombre").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const inviteCode = document.getElementById("inviteCode").value;
+    const mensaje = document.getElementById("mensaje");
 
-    const email = document
-        .getElementById("email")
-        .value
-        .trim();
-
-    const password = document
-        .getElementById("password")
-        .value;
-
-    const confirmPassword = document
-        .getElementById("confirmPassword")
-        .value;
-
-    const inviteCode = document
-        .getElementById("inviteCode")
-        .value
-        .trim();
-
-    const mensaje = document
-        .getElementById("mensaje");
-
-    mensaje.style.color = "#ff5555";
     mensaje.textContent = "";
-
-
-
-    // ==========================
-    // VALIDACIONES
-    // ==========================
-
-    if (nombre.length < 3) {
-
-        mensaje.textContent =
-        "El nombre debe tener al menos 3 caracteres.";
-
-        return;
-
-    }
-
-
-
-    if (password.length < 6) {
-
-        mensaje.textContent =
-        "La contraseña debe tener al menos 6 caracteres.";
-
-        return;
-
-    }
-
-
 
     if (password !== confirmPassword) {
 
-        mensaje.textContent =
-        "Las contraseñas no coinciden.";
-
+        mensaje.textContent = "Las contraseñas no coinciden.";
         return;
 
     }
 
+    // Token del captcha resuelto por el usuario
 
+    const hcaptchaToken = typeof hcaptcha !== "undefined" ? hcaptcha.getResponse() : "";
+
+    if (!hcaptchaToken) {
+
+        mensaje.textContent = "Por favor completa el captcha.";
+        return;
+
+    }
 
     try {
 
-        const respuesta = await fetch(
-            "/api/auth/register",
-            {
+        const respuesta = await fetch("/api/auth/register", {
 
-                method: "POST",
+            method: "POST",
 
-                headers: {
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-                    "Content-Type": "application/json"
+            body: JSON.stringify({
+                nombre,
+                email,
+                password,
+                invite_code: inviteCode,
+                hcaptchaToken
+            })
 
-                },
-
-                body: JSON.stringify({
-
-                    nombre,
-                    email,
-                    password,
-
-                    invite_code: inviteCode
-
-                })
-
-            }
-        );
-
-
+        });
 
         const data = await respuesta.json();
 
+        if (data.error) {
 
+            mensaje.textContent = data.error;
 
-        if (!respuesta.ok) {
-
-            mensaje.style.color = "#ff5555";
-            mensaje.textContent =
-            data.error || "No se pudo registrar.";
+            // Si el captcha venció o fue inválido, lo reseteamos para que lo resuelva de nuevo
+            if (typeof hcaptcha !== "undefined") {
+                hcaptcha.reset();
+            }
 
             return;
 
         }
 
+        mensaje.textContent = data.message || "Cuenta creada. Revisa tu correo para verificarla.";
 
+        document.getElementById("registerForm").reset();
 
-        mensaje.style.color = "#22c55e";
-        mensaje.textContent =
-        "✅ Cuenta creada correctamente.";
-
-
-
-        setTimeout(() => {
-
-            window.location.href =
-            "/login.html";
-
-        }, 1500);
-
-
+        if (typeof hcaptcha !== "undefined") {
+            hcaptcha.reset();
+        }
 
     } catch (error) {
 
-        console.error(error);
+        console.error("Error registro:", error);
+        mensaje.textContent = "Error conectando con el servidor";
 
-        mensaje.style.color = "#ff5555";
-        mensaje.textContent =
-        "Error conectando con el servidor.";
+        if (typeof hcaptcha !== "undefined") {
+            hcaptcha.reset();
+        }
 
     }
 
