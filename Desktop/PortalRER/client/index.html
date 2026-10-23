@@ -6,36 +6,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Portal TDW</title>
+    <title>Portal RER</title>
+
+    <link rel="icon" href="/favicon.ico">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/inicio.css">
+    <link rel="stylesheet" href="css/idioma-switch.css">
 
 </head>
 
 <body>
 
-    <div class="container">
+<header class="navbar">
 
-        <h1>Portal RER</h1>
+    <div class="logo">Portal RER</div>
 
-        <p>Bienvenido al portal oficial.</p>
-
-        <div class="buttons">
-
-            <button id="loginBtn">Iniciar Sesión</button>
-
-            <button id="registerBtn">Registrarse</button>
-
-        </div>
-
+    <div class="idioma-switch">
+        <button id="idiomaEs" class="idioma-btn" onclick="cambiarIdioma('es')">ES</button>
+        <button id="idiomaEn" class="idioma-btn" onclick="cambiarIdioma('en')">EN</button>
     </div>
 
-    <script src="js/script.js"></script>
+    <div class="nav-auth">
+        <a href="index.html" class="active" data-i18n="index_btn_login">Iniciar Sesión</a>
+        <a href="register.html" data-i18n="index_btn_registro">Registrarse</a>
+    </div>
+
+</header>
+
+<p class="disclaimer" data-i18n="disclaimer_ww2">
+    ⚠️ No apoyamos ni glorificamos ninguno de los acontecimientos sucedidos en la WW2.
+</p>
+
+<div class="breadcrumb"><strong data-i18n="nav_inicio">Inicio</strong> ›</div>
+
+<h1 class="titulo-pagina" data-i18n="login_titulo">Iniciar sesión</h1>
+
+<div class="form-wrapper">
+
+    <div class="aviso-error">
+        <span class="aviso-icono">✖</span>
+        <span data-i18n="inicio_banner">Debes iniciar sesión para acceder al portal.</span>
+    </div>
+
+    <form id="loginForm" class="form-card">
+
+        <div class="form-row">
+            <div class="form-label">
+                <label for="email" data-i18n="login_label_email">Correo electrónico:</label>
+                <span class="requerido" data-i18n="login_requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <input type="email" id="email" required autocomplete="email">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-label">
+                <label for="password" data-i18n="login_label_password">Contraseña:</label>
+                <span class="requerido" data-i18n="login_requerido">Obligatorio</span>
+            </div>
+            <div class="form-input">
+                <div class="password-wrap">
+                    <input type="password" id="password" required autocomplete="current-password">
+                    <button type="button" id="togglePassword" class="btn-mostrar" data-i18n="inicio_mostrar">Mostrar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-row form-row-final">
+            <div class="form-label"></div>
+            <div class="form-input">
+                <button type="submit" class="btn-registrar" data-i18n="login_btn">Entrar</button>
+                <p id="mensaje"></p>
+            </div>
+        </div>
+
+    </form>
+
+    <div class="registro-aparte">
+        <span data-i18n="inicio_sin_cuenta">¿No tienes una cuenta?</span>
+        <a href="register.html" class="btn-secundario" data-i18n="inicio_registrate_ahora">Registrarse ahora</a>
+    </div>
+
+</div>
+
+<script src="js/i18n.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/inicio.js"></script>
 
 </body>
 
