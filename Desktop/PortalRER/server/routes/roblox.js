@@ -121,6 +121,9 @@ router.post("/link", verifyToken, async (req, res) => {
            robloxUserId: "123456789"
        }
    }
+
+   Si la cuenta está vinculada pero no tiene grupo/rango,
+   devuelve el mismo formato con roleTag "Civil".
 ========================== */
 
 router.get("/profile/:robloxId", async (req, res) => {
@@ -169,8 +172,18 @@ router.get("/profile/:robloxId", async (req, res) => {
             return res.status(500).json({ ok: false, error: memErr.message });
         }
 
+        // Cuenta vinculada pero sin grupo/rango: Civil, con su nombre de Discord
         if (!membership) {
-            return res.status(404).json({ ok: false, error: "Sin grupo/rango asignado." });
+            return res.json({
+                ok: true,
+                profile: {
+                    roleTag: "Civil",
+                    grupo: null,
+                    discordName: usuario ? usuario.nombre : "Desconocido",
+                    robloxUsername: verification.roblox_username || "",
+                    robloxUserId: robloxId
+                }
+            });
         }
 
         res.json({
