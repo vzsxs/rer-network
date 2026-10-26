@@ -33,6 +33,7 @@
         <a href="foro.html">Foro</a>
         <a href="foro.html?tab=miembros">Miembros</a>
         <a href="groups.html">Grupos</a>
+        <a href="noticias.html">Noticias</a>
         <a href="perfil.html" class="active">Perfil</a>
 
     </nav>
@@ -43,77 +44,113 @@
 
     <div class="perfil-card">
 
+        <!-- ================= BANNER ================= -->
+
         <div class="banner-container">
 
             <img id="bannerImg" class="banner-img" src="" alt="Banner de perfil">
 
-            <div id="cambiarBannerBox" style="display:none;">
-                <input type="file" id="bannerInput" accept="image/png, image/jpeg, image/webp" hidden>
-                <label for="bannerInput" id="bannerInputLabel">🖼 Cambiar banner</label>
-            </div>
-
-        </div>
-
-        <div class="perfil-content">
-
-        <div class="avatar-container">
-
-            <img id="avatarImg" class="avatar-img" src="" alt="Foto de perfil">
+            <div class="banner-overlay"></div>
 
             <!-- Solo aparece si es TU propio perfil -->
-            <div id="cambiarFotoBox" style="display:none;">
+            <div id="cambiarBannerBox" style="display:none;">
+                <input type="file" id="bannerInput" accept="image/png, image/jpeg, image/webp" hidden>
+                <label for="bannerInput" id="bannerInputLabel">🖼 Editar banner</label>
+            </div>
 
-                <input type="file" id="avatarInput" accept="image/png, image/jpeg, image/webp" hidden>
+            <!-- Nombre y datos, encima del banner -->
+            <div class="banner-info">
 
-                <label for="avatarInput" id="avatarInputLabel">📷 Cambiar foto</label>
+                <h1 id="perfilNombre">Cargando...</h1>
+
+                <p id="perfilGrupoRango" class="banner-rango"></p>
+
+                <p class="banner-meta">
+                    Miembro desde: <span id="perfilDesde">—</span>
+                </p>
 
             </div>
 
         </div>
 
-        <!-- MODAL DE RECORTE (oculto hasta que se elige una imagen) -->
-        <div id="cropModal" class="crop-modal" style="display:none;">
+        <!-- ================= FOTO + ESTADÍSTICAS ================= -->
 
-            <div class="crop-modal-box">
+        <div class="perfil-header">
 
-                <h3 id="cropModalTitle">Ajusta tu foto</h3>
-                <p class="crop-hint">Arrastra para mover, usa el control para hacer zoom.</p>
+            <div class="perfil-avatar-col">
 
-                <div id="cropContainer" class="crop-container">
-                    <img id="cropImage" draggable="false">
+                <div class="avatar-container">
+                    <img id="avatarImg" class="avatar-img" src="" alt="Foto de perfil">
                 </div>
 
-                <input type="range" id="zoomSlider" min="0" max="100" value="0">
-
-                <div class="crop-modal-buttons">
-                    <button id="cropCancelBtn" class="crop-btn-secundario">Cancelar</button>
-                    <button id="cropConfirmBtn" class="crop-btn-primario">Guardar foto</button>
+                <!-- Solo aparece si es TU propio perfil -->
+                <div id="cambiarFotoBox" style="display:none;">
+                    <input type="file" id="avatarInput" accept="image/png, image/jpeg, image/webp" hidden>
+                    <label for="avatarInput" id="avatarInputLabel">📷 Cambiar foto</label>
                 </div>
 
             </div>
 
-        </div>
+            <div class="perfil-stats">
 
-        <h2 id="perfilNombre">Cargando...</h2>
+                <div class="stat">
+                    <span class="stat-label">Mensajes</span>
+                    <span class="stat-valor" id="statMensajes">0</span>
+                </div>
 
-        <p id="perfilGrupoRango"></p>
+                <div class="stat">
+                    <span class="stat-label">Grupo</span>
+                    <span class="stat-valor" id="statGrupo">—</span>
+                </div>
 
-        <div id="descripcionView">
+                <div class="stat">
+                    <span class="stat-label">Rango</span>
+                    <span class="stat-valor" id="statRango">—</span>
+                </div>
 
-            <p id="perfilDescripcion"></p>
-
-        </div>
-
-        <!-- Solo aparece si es TU propio perfil -->
-        <div id="editarDescripcionBox" style="display:none;">
-
-            <textarea id="descripcionInput" maxlength="300" placeholder="Escribe una breve descripción sobre ti..."></textarea>
-
-            <button id="guardarDescripcionBtn">Guardar descripción</button>
+            </div>
 
         </div>
 
         <p id="perfilMensaje"></p>
+
+        <!-- ================= PESTAÑAS ================= -->
+
+        <div class="perfil-tabs">
+            <button class="perfil-tab activo" data-tab="acerca">Acerca de</button>
+            <button class="perfil-tab" data-tab="actividad">Actividad</button>
+            <button class="perfil-tab" data-tab="grupo">Grupo</button>
+        </div>
+
+        <div class="perfil-tab-contenido">
+
+            <!-- ACERCA DE -->
+            <div id="tabAcerca" class="tab-panel">
+
+                <div id="descripcionView">
+                    <p id="perfilDescripcion"></p>
+                </div>
+
+                <!-- Solo aparece si es TU propio perfil -->
+                <div id="editarDescripcionBox" style="display:none;">
+
+                    <textarea id="descripcionInput" maxlength="300" placeholder="Escribe una breve descripción sobre ti..."></textarea>
+
+                    <button id="guardarDescripcionBtn">Guardar descripción</button>
+
+                </div>
+
+            </div>
+
+            <!-- ACTIVIDAD -->
+            <div id="tabActividad" class="tab-panel" style="display:none;">
+                <div id="actividadLista"></div>
+            </div>
+
+            <!-- GRUPO -->
+            <div id="tabGrupo" class="tab-panel" style="display:none;">
+                <div id="grupoDetalle"></div>
+            </div>
 
         </div>
 
@@ -121,7 +158,31 @@
 
 </div>
 
-<!-- Canvas oculto, se usa solo para recortar la imagen a cuadrada antes de subirla -->
+<!-- ================= MODAL DE RECORTE (foto y banner) ================= -->
+
+<div id="cropModal" class="crop-modal" style="display:none;">
+
+    <div class="crop-modal-box">
+
+        <h3 id="cropModalTitle">Ajusta tu foto</h3>
+        <p class="crop-hint">Arrastra para mover, usa el control para hacer zoom.</p>
+
+        <div id="cropContainer" class="crop-container">
+            <img id="cropImage" draggable="false">
+        </div>
+
+        <input type="range" id="zoomSlider" min="0" max="100" value="0">
+
+        <div class="crop-modal-buttons">
+            <button id="cropCancelBtn" class="crop-btn-secundario">Cancelar</button>
+            <button id="cropConfirmBtn" class="crop-btn-primario">Guardar foto</button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Canvas oculto, se usa solo para recortar la imagen antes de subirla -->
 <canvas id="cropCanvas" width="256" height="256" style="display:none;"></canvas>
 
 <script src="js/perfil.js"></script>
