@@ -18,6 +18,7 @@ const robloxRoutes = require("./routes/roblox");
 const usersRoutes = require("./routes/users");
 const chatRoutes = require("./routes/chat");
 const newsRoutes = require("./routes/news");
+const { registrarVisita } = require("./utils/visitLogger");
 
 const app = express();
 
@@ -34,6 +35,9 @@ app.use(express.json());
 app.use(express.urlencoded({
     extended: true
 }));
+
+// Registra la IP de quien abre una página (debe ir ANTES de express.static)
+app.use(registrarVisita);
 
 app.use(express.static(
     path.join(__dirname, "../client")
