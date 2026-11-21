@@ -5,11 +5,11 @@
 const CONFIG = {
 
     // Tu enlace de invitación de Discord
-    discordUrl: "https://discord.gg/TU_INVITE_AQUI",
+    discordUrl: "https://discord.gg",
 
     // Datos de la vista "Enlace del juego"
     juego: {
-        url: "https://www.roblox.com/games/TU_GAME_ID",
+        url: "https://www.roblox.com/games",
         titulo: "Hamburgo, 1934",
         autor: "@admin",
         madurez: "Madurez: Moderada · Edades 13+"
