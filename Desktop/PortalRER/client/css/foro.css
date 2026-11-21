@@ -1,13 +1,26 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
-body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
+body{background:#15161a;color:#dcdcdc;font-family:Arial, Helvetica, sans-serif;}
 
 :root{
     --accent:#3a3b40;
     --accent-soft:#2c2d32;
-    --bg-panel:#1f2024;
-    --bg-panel-header:#26272c;
+    --panel:#1f2024;
+    --panel-header:#25262b;
+    --panel-dark:#1a1b1f;
     --border:#33343a;
+    --muted:#8a8d94;
+}
+
+svg.ico{
+    width:14px;
+    height:14px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    flex-shrink:0;
 }
 
 /* ================= NAVBAR ================= */
@@ -15,7 +28,7 @@ body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
 .navbar{
     width:100%;
     height:56px;
-    background:#1a1b1f;
+    background:var(--panel-dark);
     display:flex;
     align-items:center;
     padding:0 24px;
@@ -26,7 +39,7 @@ body{background:#15161a;color:#fff;font-family:Arial, Helvetica, sans-serif;}
     z-index:1000;
 }
 
-.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:white;}
+.logo{font-family:"UnifrakturCook", cursive;font-size:26px;color:#fff;}
 
 nav{display:flex;gap:8px;flex:1;}
 
@@ -43,130 +56,325 @@ nav a:hover{color:#fff;background:#26272c;}
 
 nav a.active{
     color:#fff;
+    font-weight:bold;
     background:var(--accent-soft);
     box-shadow:inset 0 0 0 1px #45464c;
 }
 
+.nav-derecha{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.user-pill{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 12px;
+    border-radius:4px;
+    background:#23242a;
+    color:#e0e0e0;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.user-pill:hover{background:#2c2d33;}
+
+.user-avatar{
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    background:#54565e center/cover no-repeat;
+    color:#fff;
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.nav-buscar{
+    background:#23242a;
+    border:none;
+    color:#dcdcdc;
+    padding:9px 14px;
+    border-radius:4px;
+    font-size:14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+}
+
+.nav-buscar:hover{background:#2c2d33;}
+
+/* ================= BARRA SECUNDARIA ================= */
+
+.subnav{
+    background:#212227;
+    border-bottom:1px solid var(--border);
+    padding:0 24px;
+    display:flex;
+    gap:4px;
+    flex-wrap:wrap;
+}
+
+.subnav a{
+    color:#a8aab0;
+    text-decoration:none;
+    font-size:13px;
+    padding:11px 12px;
+    transition:.15s;
+}
+
+.subnav a:hover,
+.subnav a.activo{color:#fff;}
+
+/* ================= CONTENEDOR ================= */
+
+.contenedor{
+    max-width:1300px;
+    margin:0 auto;
+    padding:0 20px 50px;
+}
+
+.aviso-sitio{
+    margin-top:18px;
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:13px 16px;
+    font-size:14px;
+    color:#b8bac0;
+}
+
+.breadcrumb{
+    margin-top:20px;
+    color:#7a7d84;
+    font-size:13px;
+}
+
+.breadcrumb strong{color:#dcdcdc;}
+
+.titulo-fila{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+    margin:8px 0 14px;
+}
+
+.titulo-fila h1{
+    font-size:26px;
+    font-weight:normal;
+    color:#e6e6e6;
+}
+
+.titulo-botones{
+    display:flex;
+    gap:8px;
+}
+
+.btn-titulo{
+    background:#25262b;
+    border:1px solid #3b3c42;
+    color:#dcdcdc;
+    border-radius:3px;
+    padding:9px 13px;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    transition:.15s;
+}
+
+.btn-titulo:hover{background:#30313a;}
+
 /* ================= LAYOUT ================= */
 
 .layout{
-    max-width:1200px;
-    margin:24px auto;
-    padding:0 20px;
     display:grid;
-    grid-template-columns:1fr 280px;
-    gap:20px;
+    grid-template-columns:1fr 350px;
+    gap:14px;
+    align-items:start;
 }
 
-.breadcrumb{color:#7a7d84;font-size:13px;margin-bottom:14px;}
-.breadcrumb strong{color:#dcdcdc;}
+.col-principal{min-width:0;}
 
-/* ================= CHAT BOX ================= */
+/* ================= PANEL DE CHAT ================= */
 
-.chat-box{
-    background:var(--bg-panel);
+.panel-chat{
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:10px;
+    border-radius:4px;
     overflow:hidden;
 }
 
-.chat-box-header{
-    background:var(--bg-panel-header);
-    padding:12px 16px;
-    font-size:14px;
-    font-weight:bold;
+.panel-chat-header{
+    background:var(--panel-header);
+    padding:16px;
+    font-size:22px;
+    color:#e6e6e6;
     border-bottom:1px solid var(--border);
 }
 
+.chat-busqueda{
+    padding:10px 14px;
+    background:var(--panel-dark);
+    border-bottom:1px solid var(--border);
+}
+
+.chat-busqueda input{
+    width:100%;
+    background:#15161a;
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:9px 12px;
+    color:#fff;
+    font-size:14px;
+}
+
+.chat-busqueda input:focus{outline:none;border-color:#54565e;}
+
 .mensajes-container{
     height:420px;
+    min-height:200px;
+    max-height:80vh;
     overflow-y:auto;
-    padding:16px;
-    display:flex;
-    flex-direction:column;
-    gap:14px;
+    resize:vertical;
+    padding:6px 0;
 }
 
-.cargando{color:#7a7d84;text-align:center;margin-top:20px;font-size:13px;}
+.cargando{
+    color:#7a7d84;
+    text-align:center;
+    margin-top:24px;
+    font-size:13px;
+}
 
-.mensaje-fila{display:flex;gap:10px;}
+/* Cada mensaje: avatar | nombre | texto (la hora aparece al pasar el mouse) */
 
-.mensaje-avatar{
-    width:32px;
-    height:32px;
+.msg-fila{
+    display:grid;
+    grid-template-columns:34px 170px 1fr;
+    gap:10px;
+    align-items:center;
+    padding:7px 16px;
+    min-height:48px;
+}
+
+.msg-fila:hover{background:#23242a;}
+
+.msg-avatar-link{display:block;}
+
+.msg-avatar{
+    width:30px;
+    height:30px;
     border-radius:50%;
     object-fit:cover;
-    background:var(--accent);
-    flex-shrink:0;
+    background:#2a2b30;
+    display:block;
 }
 
-.mensaje-contenido{flex:1;min-width:0;}
+.msg-nombre{
+    font-size:15px;
+    color:#e0e0e0;
+    text-decoration:none;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
 
-.mensaje-header{display:flex;align-items:baseline;gap:8px;}
+a.msg-nombre:hover{text-decoration:underline;}
 
-.mensaje-nombre{font-weight:bold;font-size:13px;color:#dcdcdc;}
-
-.mensaje-hora{font-size:11px;color:#7a7d84;}
-
-.mensaje-texto{
-    font-size:13px;
-    color:#b8bac0;
-    margin-top:2px;
-    white-space:pre-wrap;
+.msg-cuerpo{
+    font-size:15px;
+    color:#dcdcdc;
     word-break:break-word;
 }
 
-.chat-input-row{
-    display:flex;
-    gap:8px;
-    padding:12px;
-    border-top:1px solid var(--border);
-    background:#1a1b1f;
+.msg-texto{white-space:pre-wrap;}
+
+.msg-hora{
+    display:none;
+    margin-left:12px;
+    font-size:12px;
+    color:#7a7d84;
 }
 
-.chat-input-row input{
-    flex:1;
-    background:#15161a;
+.msg-fila:hover .msg-hora{display:inline;}
+
+/* ================= CAJA PARA ESCRIBIR ================= */
+
+.chat-entrada{
+    margin-top:10px;
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:6px;
-    padding:9px 12px;
-    color:#fff;
-    font-size:13px;
+    border-radius:4px;
 }
 
-.chat-input-row input:focus{outline:none;border-color:#54565e;}
+.chat-entrada textarea{
+    display:block;
+    width:100%;
+    min-height:84px;
+    resize:vertical;
+    background:transparent;
+    border:none;
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    padding:12px 14px;
+}
 
-.chat-input-row button{
+.chat-entrada textarea:focus{outline:none;}
+
+.chat-entrada:focus-within{border-color:#54565e;}
+
+.chat-pie{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:8px;
+}
+
+.chat-contador{
+    font-size:12px;
+    color:#7a7d84;
+}
+
+.btn-enviar{
     background:var(--accent);
     color:#fff;
     border:1px solid #45464c;
-    border-radius:6px;
-    padding:9px 18px;
-    cursor:pointer;
+    border-radius:3px;
+    padding:8px 20px;
     font-size:13px;
     font-weight:bold;
+    cursor:pointer;
 }
 
-.chat-input-row button:hover{background:#45464c;}
+.btn-enviar:hover{background:#45464c;}
 
 /* ================= PANEL DE INFORMACIÓN ================= */
 
-.info-panel{
-    background:var(--bg-panel);
+.panel-info{
+    margin-top:14px;
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:10px;
-    margin-top:20px;
+    border-radius:4px;
     overflow:hidden;
 }
 
-.info-panel-header{
-    background:var(--bg-panel-header);
+.panel-info-header{
+    background:var(--panel-header);
     padding:14px 18px;
     border-bottom:1px solid var(--border);
 }
 
-.info-panel-header h2{font-size:15px;margin-bottom:3px;}
-.info-panel-header p{font-size:12px;color:#8a8d94;}
+.panel-info-header h2{font-size:17px;font-weight:normal;margin-bottom:3px;color:#e6e6e6;}
+.panel-info-header p{font-size:12px;color:var(--muted);}
 
 .info-row{
     display:flex;
@@ -186,7 +394,7 @@ nav a.active{
 .info-icon{
     width:36px;
     height:36px;
-    border-radius:6px;
+    border-radius:4px;
     background:#2c2d32;
     display:flex;
     align-items:center;
@@ -196,29 +404,170 @@ nav a.active{
 }
 
 .info-row-texto h3{font-size:14px;margin-bottom:2px;color:#fff;}
-.info-row-texto p{font-size:12px;color:#8a8d94;}
+.info-row-texto p{font-size:12px;color:var(--muted);}
 
-/* ================= VISTA VINCULAR ROBLOX ================= */
+/* ================= WIDGETS LATERALES ================= */
 
-.vincular-header{margin-bottom:16px;}
-.vincular-header h1{font-size:24px;margin-bottom:4px;}
-.vincular-header p{font-size:13px;color:#8a8d94;}
+.widget{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    margin-bottom:14px;
+}
+
+.widget-title{
+    padding:14px 14px 4px;
+    font-size:18px;
+    color:#e6e6e6;
+}
+
+.widget-body{padding:10px 14px 14px;}
+
+.widget-pie{
+    border-top:1px solid var(--border);
+    padding:10px 14px;
+    font-size:12px;
+    color:#7a7d84;
+}
+
+.vacio{
+    color:#7a7d84;
+    font-style:italic;
+    font-size:13px;
+}
+
+.staff-fila{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:10px;
+}
+
+.staff-fila:last-child{margin-bottom:0;}
+
+.staff-avatar{
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:#3a3b40 center/cover no-repeat;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    color:#dcdcdc;
+    flex-shrink:0;
+}
+
+.staff-nombre{
+    font-size:16px;
+    color:#e6e6e6;
+    text-decoration:none;
+}
+
+a.staff-nombre:hover{text-decoration:underline;}
+
+.staff-rol{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.lista-online{
+    font-size:14px;
+    line-height:1.7;
+    color:#dcdcdc;
+}
+
+.lista-online a{
+    color:#dcdcdc;
+    text-decoration:none;
+}
+
+.lista-online a:hover{text-decoration:underline;}
+
+.stat-fila{
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:15px;
+    color:var(--muted);
+    padding:5px 0;
+}
+
+.stat-fila strong{
+    color:#e6e6e6;
+    font-weight:normal;
+    text-align:right;
+}
+
+.btn-compartir{
+    background:#25262b;
+    border:1px solid #3b3c42;
+    color:#dcdcdc;
+    border-radius:3px;
+    padding:9px 13px;
+    font-size:13px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+}
+
+.btn-compartir:hover{background:#30313a;}
+
+/* ================= MIEMBROS ================= */
+
+.miembros-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
+    gap:14px;
+}
+
+.miembro-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:4px;
+    padding:18px 12px;
+    text-align:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.miembro-card:hover{border-color:#54565e;}
+
+.miembro-avatar-grande{
+    width:64px;
+    height:64px;
+    border-radius:50%;
+    object-fit:cover;
+    background:var(--accent);
+    margin:0 auto 10px;
+    display:block;
+}
+
+.miembro-card h3{font-size:14px;margin-bottom:2px;color:#e6e6e6;}
+.miembro-card p{font-size:11px;color:#9a9ca3;text-transform:uppercase;}
+
+/* ================= VISTA VINCULAR ROBLOX / ENLACE DEL JUEGO ================= */
+
+.vincular-header{margin:14px 0 16px;}
+.vincular-header h1{font-size:24px;font-weight:normal;margin-bottom:4px;color:#e6e6e6;}
+.vincular-header p{font-size:13px;color:var(--muted);}
 
 .vincular-card{
-    background:var(--bg-panel);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:10px;
+    border-radius:4px;
     overflow:hidden;
 }
 
 .vincular-card-header{
-    background:var(--bg-panel-header);
+    background:var(--panel-header);
     padding:16px 20px;
     border-bottom:1px solid var(--border);
 }
 
-.vincular-card-header h2{font-size:16px;margin-bottom:4px;}
-.vincular-card-header p{font-size:12px;color:#8a8d94;}
+.vincular-card-header h2{font-size:16px;font-weight:normal;margin-bottom:4px;color:#e6e6e6;}
+.vincular-card-header p{font-size:12px;color:var(--muted);}
 
 .vincular-card-body{padding:24px 20px;}
 
@@ -234,7 +583,7 @@ nav a.active{
     max-width:420px;
     background:#15161a;
     border:1px solid var(--border);
-    border-radius:6px;
+    border-radius:4px;
     padding:11px 14px;
     color:#fff;
     font-size:13px;
@@ -248,7 +597,7 @@ nav a.active{
     background:var(--accent);
     color:#fff;
     border:1px solid #45464c;
-    border-radius:6px;
+    border-radius:4px;
     padding:10px 20px;
     font-size:13px;
     cursor:pointer;
@@ -260,21 +609,26 @@ nav a.active{
 
 .vincular-status{font-size:13px;margin-top:14px;min-height:16px;}
 
-/* ================= CARD DEL JUEGO ================= */
+.volver-link{
+    display:inline-block;
+    margin-top:16px;
+    color:#8a8d94;
+    font-size:13px;
+}
 
 .juego-card{
     display:grid;
     grid-template-columns:1fr 260px;
     gap:20px;
-    background:var(--bg-panel);
+    background:var(--panel);
     border:1px solid var(--border);
-    border-radius:10px;
+    border-radius:4px;
     padding:20px;
 }
 
 .juego-portada{
     background:#0d0e10;
-    border-radius:8px;
+    border-radius:4px;
     min-height:320px;
     overflow:hidden;
     display:flex;
@@ -289,28 +643,14 @@ nav a.active{
     display:block;
 }
 
-.juego-info h2{
-    font-size:24px;
-    margin-bottom:10px;
-}
+.juego-info h2{font-size:24px;margin-bottom:10px;}
 
-.fuente-roblox{
-    font-family:"Montserrat", Arial, sans-serif;
-}
+.fuente-roblox{font-family:"Montserrat", Arial, sans-serif;}
 
-.juego-autor{
-    font-size:14px;
-    color:#dcdcdc;
-    margin-bottom:8px;
-}
-
+.juego-autor{font-size:14px;color:#dcdcdc;margin-bottom:8px;}
 .juego-autor strong{color:#8a9bff;}
 
-.juego-madurez{
-    font-size:13px;
-    color:#8a8d94;
-    margin-bottom:24px;
-}
+.juego-madurez{font-size:13px;color:var(--muted);margin-bottom:24px;}
 
 .juego-play-btn{
     display:flex;
@@ -329,85 +669,20 @@ nav a.active{
 
 .juego-play-btn:hover{background:#3f5adb;}
 
-@media(max-width:700px){
-
-    .juego-card{
-        grid-template-columns:1fr;
-    }
-
-    .juego-portada{
-        min-height:200px;
-    }
-
-}
-
-/* ================= SIDEBAR ================= */
-
-.sidebar-box{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    margin-bottom:16px;
-    overflow:hidden;
-}
-
-.sidebar-box-header{
-    background:var(--bg-panel-header);
-    padding:10px 14px;
-    font-size:13px;
-    font-weight:bold;
-    border-bottom:1px solid var(--border);
-}
-
-.sidebar-box-body{padding:12px 14px;}
-
-.stat-row{
-    display:flex;
-    justify-content:space-between;
-    font-size:13px;
-    color:#b8bac0;
-    padding:6px 0;
-    border-bottom:1px solid var(--border);
-}
-
-.stat-row:last-child{border-bottom:none;}
-.stat-row strong{color:#fff;}
-
-/* ================= MIEMBROS GRID (dentro del foro) ================= */
-
-.miembros-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(170px, 1fr));
-    gap:14px;
-}
-
-.miembro-card{
-    background:var(--bg-panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:18px 12px;
-    text-align:center;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.miembro-card:hover{border-color:#54565e;}
-
-.miembro-avatar-grande{
-    width:64px;
-    height:64px;
-    border-radius:50%;
-    object-fit:cover;
-    background:var(--accent);
-    margin:0 auto 10px;
-}
-
-.miembro-card h3{font-size:14px;margin-bottom:2px;}
-.miembro-card p{font-size:11px;color:#9a9ca3;text-transform:uppercase;}
-
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:900px){
+
     .layout{grid-template-columns:1fr;}
+
     nav{display:none;}
+
+    .nav-derecha{margin-left:auto;}
+
+    .msg-fila{grid-template-columns:30px 110px 1fr;}
+
+    .juego-card{grid-template-columns:1fr;}
+
+    .juego-portada{min-height:200px;}
+
 }
