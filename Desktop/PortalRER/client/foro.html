@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
-
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/foro.css">
@@ -23,168 +22,275 @@
 
 <body>
 
+<!-- ================= NAVBAR ================= -->
+
 <header class="navbar">
+
     <div class="logo">Portal RER</div>
+
     <nav>
         <a href="dashboard.html">Inicio</a>
-        <a href="#" id="navForo" onclick="mostrar('chat', this); return false;" class="active">Foro</a>
+        <a href="#" id="navForo" class="active" onclick="mostrar('chat', this); return false;">Foro</a>
         <a href="#" id="navMiembros" onclick="mostrar('miembros', this); return false;">Miembros</a>
         <a href="groups.html">Grupos</a>
         <a href="noticias.html">Noticias</a>
         <a href="perfil.html">Perfil</a>
     </nav>
+
+    <div class="nav-derecha">
+
+        <a href="perfil.html" class="user-pill" id="userPill">
+            <span class="user-avatar" id="navAvatar"></span>
+            <span id="navNombre">Invitado</span>
+        </a>
+
+        <button type="button" class="nav-buscar" id="navBuscarBtn">
+            <svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            Buscar
+        </button>
+
+    </div>
+
 </header>
 
-<div class="layout">
+<!-- ================= BARRA SECUNDARIA ================= -->
 
-    <div>
+<div class="subnav">
+    <a href="#" id="subChat" class="activo" onclick="mostrar('chat', document.getElementById('navForo')); return false;">Chat general</a>
+    <a href="#" id="subMiembros" onclick="mostrar('miembros', document.getElementById('navMiembros')); return false;">Miembros</a>
+    <a href="#" id="subBuscar">Buscar en el chat</a>
+    <a href="#" id="subInfo">Información</a>
+</div>
 
-        <div class="breadcrumb"><strong>Inicio</strong> › Foro general</div>
+<div class="contenedor">
 
-        <div id="vistaChat">
+    <!-- ================= AVISO ================= -->
 
-            <div class="chat-box">
-                <div class="chat-box-header">Chat general</div>
+    <div class="aviso-sitio">
+        ⚠️ No apoyamos ni glorificamos ninguno de los acontecimientos sucedidos en la WW2.
+    </div>
 
-                <div id="mensajesContainer" class="mensajes-container">
-                    <p class="cargando">Cargando mensajes...</p>
-                </div>
+    <!-- ================= CABECERA (migas + título + botones) ================= -->
 
-                <form id="chatForm" class="chat-input-row">
-                    <input type="text" id="mensajeInput" placeholder="Escribe un mensaje..." maxlength="500" autocomplete="off">
-                    <button type="submit">Enviar</button>
-                </form>
-            </div>
+    <div id="cabeceraForo">
 
-            <div class="info-panel">
-                <div class="info-panel-header">
-                    <h2>Información</h2>
-                    <p>Aquí puedes vincular tu Roblox, encontrar el link del juego, etc.</p>
-                </div>
+        <div class="breadcrumb"><strong>Inicio</strong> ›</div>
 
-                <a class="info-row" href="https://discord.gg/MePrfmpT4" target="_blank">
-                    <div class="info-icon">💬</div>
-                    <div class="info-row-texto">
-                        <h3>Discord</h3>
-                        <p>Únete a nuestro servidor de Discord.</p>
-                    </div>
-                </a>
+        <div class="titulo-fila">
 
-                <div class="info-row" onclick="mostrarVincular()">
-                    <div class="info-icon">🎮</div>
-                    <div class="info-row-texto">
-                        <h3>Vincular Roblox</h3>
-                        <p>Conecta tu cuenta para recibir tu uniforme automáticamente en el juego.</p>
-                    </div>
-                </div>
+            <h1 id="tituloPagina">Foro general</h1>
 
-                <div class="info-row" onclick="mostrarJuego()">
-                    <div class="info-icon">🕹️</div>
-                    <div class="info-row-texto">
-                        <h3>Link del juego</h3>
-                        <p>Entra directo al servidor de Roblox de Portal RER.</p>
-                    </div>
-                </div>
+            <div class="titulo-botones">
+
+                <button type="button" class="btn-titulo" id="btnNuevos">
+                    <svg class="ico" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>
+                    Mensajes nuevos
+                </button>
+
+                <button type="button" class="btn-titulo" id="btnEscribir">
+                    <svg class="ico" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+                    Escribir mensaje…
+                </button>
 
             </div>
-
-        </div>
-
-        <div id="vistaMiembros" style="display:none;">
-            <div id="miembrosGrid" class="miembros-grid"></div>
-        </div>
-
-        <div id="vistaVincular" style="display:none;">
-
-            <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Vincular Roblox</strong></div>
-
-            <div class="vincular-header">
-                <h1>Vincular Roblox</h1>
-                <p>Aquí puedes vincular tu cuenta de Roblox.</p>
-            </div>
-
-            <div class="vincular-card">
-
-                <div class="vincular-card-header">
-                    <h2>Vincula tu cuenta de Roblox</h2>
-                    <p>Pega el link de tu perfil de Roblox y verifícalo.</p>
-                </div>
-
-                <div class="vincular-card-body">
-
-                    <label>Link de tu perfil de Roblox:</label>
-                    <input type="text" id="robloxProfileLink" placeholder="https://www.roblox.com/users/123456789/profile">
-
-                    <button class="vincular-btn" id="robloxLinkBtn">Verificar y vincular</button>
-
-                    <p class="vincular-status" id="robloxStatus"></p>
-
-                    <br>
-
-                    <a href="#" onclick="ocultarVincular(); return false;" style="color:#8a8d94; font-size:13px;">← Volver</a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div id="vistaJuego" style="display:none;">
-
-            <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Enlace del juego</strong></div>
-
-            <div class="vincular-header">
-                <h1>Enlace del juego</h1>
-                <p>Aquí puedes encontrar el enlace actualizado del juego y lanzarte directamente a él.</p>
-            </div>
-
-            <div class="juego-card">
-
-                <div class="juego-portada">
-                    <img src="images/juego-portada.jpg" alt="Portada del juego" onerror="this.style.display='none'">
-                </div>
-
-                <div class="juego-info">
-
-                    <h2 class="fuente-roblox">Hamburgo, 1934</h2>
-
-                    <p class="juego-autor">Por <strong>@admin</strong></p>
-
-                    <p class="juego-madurez">Madurez: Moderada · Edades 13+</p>
-
-                    <a href="https://www.roblox.com" target="_blank" class="juego-play-btn fuente-roblox">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-                            <path d="M6 4l15 8-15 8z"/>
-                        </svg>
-                        Jugar
-                    </a>
-
-                </div>
-
-            </div>
-
-            <a href="#" onclick="ocultarVincular(); return false;" style="color:#8a8d94; font-size:13px; display:inline-block; margin-top:16px;">← Volver</a>
 
         </div>
 
     </div>
 
-    <div class="sidebar">
+    <div class="layout">
 
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">Miembros</div>
-            <div class="sidebar-box-body" id="statsMiembros" style="font-size:13px;color:#b8bac0;">
-                Cargando...
+        <!-- ================= COLUMNA PRINCIPAL ================= -->
+
+        <div class="col-principal">
+
+            <!-- ===== VISTA: CHAT ===== -->
+
+            <div id="vistaChat">
+
+                <div class="panel-chat">
+
+                    <div class="panel-chat-header">Chat</div>
+
+                    <div class="chat-busqueda" id="chatBusqueda" style="display:none;">
+                        <input type="text" id="chatBuscarInput" placeholder="Buscar en los mensajes cargados...">
+                    </div>
+
+                    <div id="mensajesContainer" class="mensajes-container">
+                        <p class="cargando">Cargando mensajes...</p>
+                    </div>
+
+                </div>
+
+                <form id="chatForm" class="chat-entrada">
+                    <textarea id="mensajeInput" rows="3" maxlength="500" placeholder="Escribe tu mensaje..."></textarea>
+                </form>
+
+                <div class="chat-pie">
+                    <span class="chat-contador" id="chatContador">0 / 500</span>
+                    <button type="submit" form="chatForm" class="btn-enviar">Enviar</button>
+                </div>
+
+                <!-- ===== INFORMACIÓN (más abajo, como pediste) ===== -->
+
+                <div class="panel-info" id="panelInfo">
+
+                    <div class="panel-info-header">
+                        <h2>Información</h2>
+                        <p>Aquí puedes vincular tu Roblox, encontrar el enlace del juego, etc.</p>
+                    </div>
+
+                    <a class="info-row" id="infoDiscord" href="#" target="_blank" rel="noopener">
+                        <div class="info-icon">💬</div>
+                        <div class="info-row-texto">
+                            <h3>Discord</h3>
+                            <p>Únete a nuestro servidor de Discord.</p>
+                        </div>
+                    </a>
+
+                    <div class="info-row" onclick="mostrarVincular()">
+                        <div class="info-icon">🎮</div>
+                        <div class="info-row-texto">
+                            <h3>Vincular Roblox</h3>
+                            <p>Conecta tu cuenta para recibir tu uniforme automáticamente en el juego.</p>
+                        </div>
+                    </div>
+
+                    <div class="info-row" onclick="mostrarJuego()">
+                        <div class="info-icon">🕹️</div>
+                        <div class="info-row-texto">
+                            <h3>Enlace del juego</h3>
+                            <p>Entra directo al servidor de Roblox de Portal RER.</p>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
+
+            <!-- ===== VISTA: MIEMBROS ===== -->
+
+            <div id="vistaMiembros" style="display:none;">
+                <div id="miembrosGrid" class="miembros-grid"></div>
+            </div>
+
+            <!-- ===== VISTA: VINCULAR ROBLOX ===== -->
+
+            <div id="vistaVincular" style="display:none;">
+
+                <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Vincular Roblox</strong></div>
+
+                <div class="vincular-header">
+                    <h1>Vincular Roblox</h1>
+                    <p>Aquí puedes vincular tu cuenta de Roblox.</p>
+                </div>
+
+                <div class="vincular-card">
+
+                    <div class="vincular-card-header">
+                        <h2>Vincula tu cuenta de Roblox</h2>
+                        <p>Pega el link de tu perfil de Roblox y verifícalo.</p>
+                    </div>
+
+                    <div class="vincular-card-body">
+
+                        <label for="robloxProfileLink">Link de tu perfil de Roblox:</label>
+                        <input type="text" id="robloxProfileLink" placeholder="https://www.roblox.com/users/123456789/profile">
+
+                        <button class="vincular-btn" id="robloxLinkBtn">Verificar y vincular</button>
+
+                        <p class="vincular-status" id="robloxStatus"></p>
+
+                        <a href="#" class="volver-link" onclick="ocultarVincular(); return false;">← Volver</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ===== VISTA: ENLACE DEL JUEGO ===== -->
+
+            <div id="vistaJuego" style="display:none;">
+
+                <div class="breadcrumb"><strong>Inicio</strong> › Foro › Información › <strong>Enlace del juego</strong></div>
+
+                <div class="vincular-header">
+                    <h1>Enlace del juego</h1>
+                    <p>Aquí puedes encontrar el enlace actualizado del juego y lanzarte directamente a él.</p>
+                </div>
+
+                <div class="juego-card">
+
+                    <div class="juego-portada">
+                        <img src="images/juego-portada.jpg" alt="Portada del juego" onerror="this.style.display='none'">
+                    </div>
+
+                    <div class="juego-info">
+
+                        <h2 class="fuente-roblox" id="juegoTitulo">Hamburgo, 1934</h2>
+
+                        <p class="juego-autor">Por <strong id="juegoAutor">@admin</strong></p>
+
+                        <p class="juego-madurez" id="juegoMadurez">Madurez: Moderada · Edades 13+</p>
+
+                        <a href="#" target="_blank" rel="noopener" class="juego-play-btn fuente-roblox" id="juegoPlay">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                                <path d="M6 4l15 8-15 8z"/>
+                            </svg>
+                            Jugar
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <a href="#" class="volver-link" onclick="ocultarVincular(); return false;">← Volver</a>
+
+            </div>
+
         </div>
 
-        <div class="sidebar-box">
-            <div class="sidebar-box-header">Estadísticas del foro</div>
-            <div class="sidebar-box-body">
-                <div class="stat-row"><span>Mensajes</span><strong id="statMensajes">—</strong></div>
-                <div class="stat-row"><span>Miembros</span><strong id="statMiembros">—</strong></div>
+        <!-- ================= COLUMNA LATERAL ================= -->
+
+        <aside class="col-lateral">
+
+            <div class="widget">
+                <div class="widget-title">Staff en línea</div>
+                <div class="widget-body" id="staffOnline">
+                    <p class="vacio">Cargando...</p>
+                </div>
             </div>
-        </div>
+
+            <div class="widget">
+                <div class="widget-title">Miembros en línea</div>
+                <div class="widget-body" id="miembrosOnline">
+                    <p class="vacio">Cargando...</p>
+                </div>
+                <div class="widget-pie" id="totalOnline">Total: —</div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">Estadísticas del foro</div>
+                <div class="widget-body">
+                    <div class="stat-fila"><span>Noticias:</span><strong id="statNoticias">—</strong></div>
+                    <div class="stat-fila"><span>Mensajes:</span><strong id="statMensajes">—</strong></div>
+                    <div class="stat-fila"><span>Miembros:</span><strong id="statMiembros">—</strong></div>
+                    <div class="stat-fila"><span>Último miembro:</span><strong id="statUltimo">—</strong></div>
+                </div>
+            </div>
+
+            <div class="widget">
+                <div class="widget-title">Compartir esta página</div>
+                <div class="widget-body">
+                    <button type="button" class="btn-compartir" id="copiarEnlaceBtn">
+                        <svg class="ico" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg>
+                        Copiar enlace
+                    </button>
+                </div>
+            </div>
+
+        </aside>
 
     </div>
 
